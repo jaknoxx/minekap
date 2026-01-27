@@ -51,7 +51,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
         if (players.length === 0) {
             const row = document.createElement('tr');
-            row.innerHTML = `<td colspan="13" style="text-align: center; padding: 40px; color: #aaa;">Žádní hráči. Přidejte prvního hráče výše!</td>`;
+            row.innerHTML = '<td colspan="13" style="text-align: center; padding: 40px; color: #aaa;">Žádní hráči. Přidejte prvního hráče výše!</td>';
             tableBody.appendChild(row);
             return;
         }
@@ -62,17 +62,14 @@ document.addEventListener('DOMContentLoaded', function() {
             // Pořadí
             const rankCell = document.createElement('td');
             rankCell.className = 'rank-cell';
-            rankCell.textContent = `#${index + 1}`;
+            rankCell.textContent = '#' + (index + 1);
             row.appendChild(rankCell);
             
             // Hráč + skin
             const playerCell = document.createElement('td');
             playerCell.className = 'player-cell';
-            const skinUrl = player.skin || `https://mc-heads.net/avatar/${player.name}/100.png`;
-            playerCell.innerHTML = `
-                <img class="skin" src="${skinUrl}" alt="${player.name}" onerror="this.src='https://mc-heads.net/avatar/Steve/100.png'">
-                <span>${player.name}</span>
-            `;
+            const skinUrl = player.skin || 'https://mc-heads.net/avatar/' + player.name + '/100.png';
+            playerCell.innerHTML = '<img class="skin" src="' + skinUrl + '" alt="' + player.name + '" onerror="this.src=\'https://mc-heads.net/avatar/Steve/100.png\'"><span>' + player.name + '</span>';
             row.appendChild(playerCell);
             
             // Kity (select boxy)
@@ -115,10 +112,7 @@ document.addEventListener('DOMContentLoaded', function() {
             // Akce
             const actionCell = document.createElement('td');
             actionCell.className = 'action-cell';
-            actionCell.innerHTML = `
-                <button class="action-btn edit-btn" data-name="${player.name}"><i class="fas fa-edit"></i> Upravit</button>
-                <button class="action-btn delete-btn" data-name="${player.name}"><i class="fas fa-trash"></i> Smazat</button>
-            `;
+            actionCell.innerHTML = '<button class="action-btn edit-btn" data-name="' + player.name + '"><i class="fas fa-edit"></i> Upravit</button><button class="action-btn delete-btn" data-name="' + player.name + '"><i class="fas fa-trash"></i> Smazat</button>';
             row.appendChild(actionCell);
             
             tableBody.appendChild(row);
@@ -133,7 +127,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
         document.querySelectorAll('.delete-btn').forEach(btn => {
             btn.addEventListener('click', function() {
-                if (confirm(`Opravdu chcete smazat hráče ${this.dataset.name}?`)) {
+                if (confirm('Opravdu chcete smazat hráče ' + this.dataset.name + '?')) {
                     deletePlayer(this.dataset.name);
                 }
             });
@@ -226,7 +220,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 select.appendChild(option);
             });
             
-            item.innerHTML = `<label>${kit}</label>`;
+            item.innerHTML = '<label>' + kit + '</label>';
             item.appendChild(select);
             container.appendChild(item);
         });
@@ -288,9 +282,4 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Načtení tabulky při startu
     renderTable();
-    
-    // Testovací data (můžete smazat)
-    if (players.length === 0) {
-        console.log('Žádná data, můžete přidat hráče.');
-    }
 });

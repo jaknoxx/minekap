@@ -32,11 +32,17 @@
             position: relative;
         }
         
-        /* Tlačítko s 3 čárkami v pravém horním rohu */
-        .tier-filter-btn {
+        /* Kontrolky v pravém horním rohu */
+        .top-controls {
             position: absolute;
             top: 30px;
             right: 30px;
+            display: flex;
+            gap: 15px;
+            z-index: 100;
+        }
+        
+        .control-btn {
             background: rgba(255, 154, 0, 0.2);
             border: 1px solid rgba(255, 154, 0, 0.4);
             color: #ff9a00;
@@ -48,21 +54,26 @@
             justify-content: center;
             cursor: pointer;
             font-size: 24px;
-            z-index: 100;
             transition: all 0.3s;
         }
         
-        .tier-filter-btn:hover {
+        .control-btn:hover {
             background: rgba(255, 154, 0, 0.3);
             transform: scale(1.05);
         }
         
-        /* Dropdown menu */
-        .tier-filter-dropdown {
+        .search-btn {
+            background: rgba(52, 152, 219, 0.2);
+            border-color: rgba(52, 152, 219, 0.4);
+            color: #3498db;
+        }
+        
+        /* Dropdown menu pro filtr */
+        .control-dropdown {
             position: absolute;
             top: 90px;
             right: 30px;
-            background: rgba(0, 0, 0, 0.9);
+            background: rgba(0, 0, 0, 0.95);
             border: 1px solid rgba(255, 154, 0, 0.4);
             border-radius: 15px;
             padding: 20px;
@@ -72,11 +83,11 @@
             box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
         }
         
-        .tier-filter-dropdown.active {
+        .control-dropdown.active {
             display: block;
         }
         
-        .tier-filter-title {
+        .dropdown-title {
             font-size: 1.2rem;
             margin-bottom: 15px;
             color: #ff9a00;
@@ -96,7 +107,7 @@
             font-size: 0.9rem;
         }
         
-        .filter-select {
+        .filter-select, .search-input {
             width: 100%;
             padding: 10px 15px;
             background: rgba(255, 255, 255, 0.1);
@@ -104,6 +115,10 @@
             border-radius: 8px;
             color: white;
             font-size: 1rem;
+        }
+        
+        .search-input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
         }
         
         .filter-buttons {
@@ -148,12 +163,89 @@
             display: none;
         }
         
+        /* Panel s výsledky vyhledávání */
+        .search-results {
+            position: absolute;
+            top: 90px;
+            right: 100px;
+            background: rgba(0, 0, 0, 0.95);
+            border: 1px solid rgba(52, 152, 219, 0.4);
+            border-radius: 15px;
+            padding: 20px;
+            width: 500px;
+            z-index: 101;
+            display: none;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
+        }
+        
+        .search-results.active {
+            display: block;
+        }
+        
+        .player-detail {
+            text-align: center;
+        }
+        
+        .detail-skin {
+            width: 150px;
+            height: 150px;
+            border-radius: 15px;
+            border: 5px solid #ff9a00;
+            box-shadow: 0 10px 25px rgba(255, 154, 0, 0.4);
+            margin: 0 auto 20px;
+            display: block;
+        }
+        
+        .detail-name {
+            font-size: 2rem;
+            margin-bottom: 5px;
+            color: white;
+        }
+        
+        .detail-title {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            padding: 5px 15px;
+            border-radius: 20px;
+            display: inline-block;
+        }
+        
+        .detail-points {
+            font-size: 1.5rem;
+            color: #00ff88;
+            margin-bottom: 25px;
+            text-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
+        }
+        
+        .detail-tiers {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        
+        .detail-tier {
+            padding: 8px 15px;
+            border-radius: 8px;
+            font-weight: bold;
+            min-width: 60px;
+            text-align: center;
+        }
+        
+        .kit-label {
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.7);
+            margin-top: 5px;
+            text-align: center;
+        }
+        
         header {
             text-align: center;
             margin-bottom: 30px;
             padding-bottom: 20px;
             border-bottom: 2px solid rgba(255, 255, 255, 0.1);
-            padding-right: 70px; /* Místo pro tlačítko */
+            padding-right: 120px; /* Místo pro tlačítka */
         }
         
         h1 {
@@ -220,7 +312,7 @@
         }
         
         th:nth-child(2) {
-            width: 200px;
+            width: 280px;
             text-align: left;
         }
         
@@ -260,10 +352,34 @@
             box-shadow: 0 5px 15px rgba(255, 154, 0, 0.3);
         }
         
+        .player-info {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+        
         .player-name {
             font-weight: bold;
             font-size: 1.2rem;
         }
+        
+        .player-title {
+            font-size: 0.8rem;
+            padding: 3px 10px;
+            border-radius: 12px;
+            display: inline-block;
+            font-weight: bold;
+            width: fit-content;
+        }
+        
+        /* Barvy pro tituly */
+        .title-rookie { background: #95a5a6; color: #2c3e50; }
+        .title-novice { background: #2ecc71; color: white; }
+        .title-cadet { background: #3498db; color: white; }
+        .title-specialist { background: #e84393; color: white; }
+        .title-ace { background: #e74c3c; color: white; }
+        .title-master { background: #e67e22; color: white; }
+        .title-grandmaster { background: #f1c40f; color: #2c3e50; }
         
         .tier-cell {
             font-weight: bold;
@@ -327,6 +443,26 @@
             text-align: center;
         }
         
+        .title-system {
+            margin-top: 20px;
+        }
+        
+        .title-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 8px;
+            padding: 8px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 5px;
+        }
+        
+        .title-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+        }
+        
         @media (max-width: 768px) {
             .container {
                 padding: 15px;
@@ -342,34 +478,59 @@
                 gap: 5px;
             }
             
-            .tier-filter-btn {
+            .top-controls {
                 top: 20px;
                 right: 20px;
+                gap: 10px;
             }
             
-            .tier-filter-dropdown {
+            .control-dropdown, .search-results {
                 top: 80px;
                 right: 20px;
                 width: calc(100% - 40px);
             }
             
+            .search-results {
+                right: 20px;
+            }
+            
             header {
-                padding-right: 60px;
+                padding-right: 100px;
             }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- Tlačítko s 3 čárkami -->
-        <div class="tier-filter-btn" id="filterBtn">
-            <i class="fas fa-bars"></i>
+        <!-- Kontrolky v pravém horním rohu -->
+        <div class="top-controls">
+            <div class="control-btn search-btn" id="searchBtn" title="Vyhledat hráče">
+                <i class="fas fa-search"></i>
+            </div>
+            <div class="control-btn" id="filterBtn" title="Filtrovat tierlist">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+        
+        <!-- Dropdown menu pro vyhledávání -->
+        <div class="search-results" id="searchResults">
+            <div class="dropdown-title">
+                <i class="fas fa-search"></i> Vyhledat hráče
+            </div>
+            
+            <div class="filter-section">
+                <input type="text" class="search-input" id="playerSearch" placeholder="Zadejte jméno hráče...">
+            </div>
+            
+            <div class="player-detail" id="playerDetail">
+                <!-- Zde se zobrazí detaily hráče -->
+            </div>
         </div>
         
         <!-- Dropdown menu pro filtr -->
-        <div class="tier-filter-dropdown" id="filterDropdown">
-            <div class="tier-filter-title">
-                <i class="fas fa-filter"></i> Filtrovat hráče podle tieru
+        <div class="control-dropdown" id="filterDropdown">
+            <div class="dropdown-title">
+                <i class="fas fa-filter"></i> Filtrovat tierlist
             </div>
             
             <div class="filter-section">
@@ -460,6 +621,39 @@
                 <div class="point-item">LT1 = <span style="color: #e67e22">45</span></div>
                 <div class="point-item">HT1 = <span style="color: #d35400">60</span></div>
             </div>
+            
+            <div class="title-system">
+                <h3><i class="fas fa-crown"></i> Title systém:</h3>
+                <div class="title-item">
+                    <div class="title-color" style="background: #95a5a6"></div>
+                    <span>0-10 bodů: <strong>Rookie</strong></span>
+                </div>
+                <div class="title-item">
+                    <div class="title-color" style="background: #2ecc71"></div>
+                    <span>10-15 bodů: <strong>Combat Novice</strong></span>
+                </div>
+                <div class="title-item">
+                    <div class="title-color" style="background: #3498db"></div>
+                    <span>15-50 bodů: <strong>Combat Cadet</strong></span>
+                </div>
+                <div class="title-item">
+                    <div class="title-color" style="background: #e84393"></div>
+                    <span>50-100 bodů: <strong>Combat Specialist</strong></span>
+                </div>
+                <div class="title-item">
+                    <div class="title-color" style="background: #e74c3c"></div>
+                    <span>100-250 bodů: <strong>Combat Ace</strong></span>
+                </div>
+                <div class="title-item">
+                    <div class="title-color" style="background: #e67e22"></div>
+                    <span>250-350 bodů: <strong>Combat Master</strong></span>
+                </div>
+                <div class="title-item">
+                    <div class="title-color" style="background: #f1c40f"></div>
+                    <span>350+ bodů: <strong>Combat Grandmaster</strong></span>
+                </div>
+            </div>
+            
             <p style="margin-top: 15px; color: #a5b1c2; font-size: 0.9rem;">
                 <i class="fas fa-info-circle"></i> Retier (šedá) = stejné body jako původní tier
             </p>
@@ -636,6 +830,22 @@
                     Mace: "",
                     Spear: "LT5"
                 }
+            },
+            // Příklad hráče s vysokým počtem bodů (pro testování title systému)
+            {
+                name: "caisem",
+                skin: "",
+                kits: {
+                    Sword: "LT1",
+                    Axe: "LT1",
+                    UHC: "HT2",
+                    DiaPot: "LT2",
+                    NethPot: "LT2",
+                    SMP: "HT3",
+                    Crystal: "HT3",
+                    Mace: "LT2",
+                    Spear: "LT1"
+                }
             }
             // PŘIDEJ NOVÉHO HRÁČE TAKTO:
             // {
@@ -670,9 +880,42 @@
         };
         
         const kitsOrder = ['Sword', 'Axe', 'UHC', 'DiaPot', 'NethPot', 'SMP', 'Crystal', 'Mace', 'Spear'];
+        const kitLabels = {
+            'Sword': '🗡️ Sword',
+            'Axe': '🪓 Axe', 
+            'UHC': '❤️ UHC',
+            'DiaPot': '💎 DiaPot',
+            'NethPot': '🔥 NethPot',
+            'SMP': '🌍 SMP',
+            'Crystal': '💎 Crystal',
+            'Mace': '🔨 Mace',
+            'Spear': '🔱 Spear'
+        };
         
         // ============================================
-        // PROMĚNNÉ PRO FILTR
+        // TITLE SYSTÉM
+        // ============================================
+        
+        function getTitle(points) {
+            if (points >= 350) {
+                return { name: "Combat Grandmaster", class: "title-grandmaster" };
+            } else if (points >= 250) {
+                return { name: "Combat Master", class: "title-master" };
+            } else if (points >= 100) {
+                return { name: "Combat Ace", class: "title-ace" };
+            } else if (points >= 50) {
+                return { name: "Combat Specialist", class: "title-specialist" };
+            } else if (points >= 15) {
+                return { name: "Combat Cadet", class: "title-cadet" };
+            } else if (points >= 10) {
+                return { name: "Combat Novice", class: "title-novice" };
+            } else {
+                return { name: "Rookie", class: "title-rookie" };
+            }
+        }
+        
+        // ============================================
+        // PROMĚNNÉ PRO FILTR A VYHLEDÁVÁNÍ
         // ============================================
         
         let currentFilter = {
@@ -738,6 +981,7 @@
             sortedPlayers.forEach((player, index) => {
                 const row = document.createElement('tr');
                 const points = calculatePoints(player);
+                const title = getTitle(points);
                 
                 row.innerHTML += `<td style="font-weight: bold; color: #ff9a00;">#${index + 1}</td>`;
                 
@@ -747,7 +991,10 @@
                         <div class="player-cell">
                             <img class="skin-img" src="${skinUrl}" alt="${player.name}" 
                                  onerror="this.src='https://mc-heads.net/avatar/Steve/100.png'">
-                            <div class="player-name">${player.name}</div>
+                            <div class="player-info">
+                                <div class="player-name">${player.name}</div>
+                                <div class="player-title ${title.class}">${title.name}</div>
+                            </div>
                         </div>
                     </td>
                 `;
@@ -775,6 +1022,55 @@
             updateFilterStatus();
         }
         
+        function showPlayerDetail(playerName) {
+            const playerDetail = document.getElementById('playerDetail');
+            const searchResults = document.getElementById('searchResults');
+            const player = players.find(p => p.name.toLowerCase() === playerName.toLowerCase());
+            
+            if (!player) {
+                playerDetail.innerHTML = `
+                    <div style="text-align: center; padding: 20px; color: #e74c3c;">
+                        <i class="fas fa-user-times" style="font-size: 3rem; margin-bottom: 15px;"></i>
+                        <h3>Hráč nenalezen</h3>
+                        <p>Hráč "${playerName}" nebyl nalezen v databázi.</p>
+                    </div>
+                `;
+                searchResults.classList.add('active');
+                return;
+            }
+            
+            const points = calculatePoints(player);
+            const title = getTitle(points);
+            const skinUrl = player.skin || `https://mc-heads.net/avatar/${player.name}/300.png`;
+            
+            let tiersHTML = '';
+            kitsOrder.forEach(kit => {
+                const tier = player.kits[kit] || '';
+                if (tier) {
+                    const tierClass = tier ? `tier-${tier}` : '';
+                    tiersHTML += `
+                        <div>
+                            <div class="detail-tier ${tierClass}">${tier}</div>
+                            <div class="kit-label">${kitLabels[kit]}</div>
+                        </div>
+                    `;
+                }
+            });
+            
+            playerDetail.innerHTML = `
+                <img class="detail-skin" src="${skinUrl}" alt="${player.name}" 
+                     onerror="this.src='https://mc-heads.net/avatar/Steve/300.png'">
+                <h2 class="detail-name">${player.name}</h2>
+                <div class="detail-title ${title.class}">${title.name}</div>
+                <div class="detail-points">${points} bodů</div>
+                <div class="detail-tiers">
+                    ${tiersHTML}
+                </div>
+            `;
+            
+            searchResults.classList.add('active');
+        }
+        
         function updateFilterStatus() {
             const filterStatus = document.getElementById('filterStatus');
             const filteredPlayers = filterPlayers();
@@ -795,27 +1091,58 @@
         }
         
         // ============================================
-        // OVLÁDÁNÍ DROPDOWN MENU
+        // OVLÁDÁNÍ DROPDOWN MENU A VYHLEDÁVÁNÍ
         // ============================================
         
         document.addEventListener('DOMContentLoaded', function() {
             const filterBtn = document.getElementById('filterBtn');
+            const searchBtn = document.getElementById('searchBtn');
             const filterDropdown = document.getElementById('filterDropdown');
+            const searchResults = document.getElementById('searchResults');
             const applyFilterBtn = document.getElementById('applyFilter');
             const resetFilterBtn = document.getElementById('resetFilter');
             const kitSelect = document.getElementById('kitSelect');
             const tierSelect = document.getElementById('tierSelect');
+            const playerSearch = document.getElementById('playerSearch');
             
-            // Otevření/zavření dropdown
+            // Otevření/zavření dropdown pro filtr
             filterBtn.addEventListener('click', function(e) {
                 e.stopPropagation();
                 filterDropdown.classList.toggle('active');
+                searchResults.classList.remove('active');
             });
             
-            // Kliknutí mimo dropdown ho zavře
+            // Otevření/zavření dropdown pro vyhledávání
+            searchBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                searchResults.classList.toggle('active');
+                filterDropdown.classList.remove('active');
+                playerSearch.focus();
+            });
+            
+            // Kliknutí mimo dropdowny je zavře
             document.addEventListener('click', function(e) {
                 if (!filterDropdown.contains(e.target) && !filterBtn.contains(e.target)) {
                     filterDropdown.classList.remove('active');
+                }
+                if (!searchResults.contains(e.target) && !searchBtn.contains(e.target)) {
+                    searchResults.classList.remove('active');
+                }
+            });
+            
+            // Vyhledávání hráče při psaní
+            playerSearch.addEventListener('input', function() {
+                const searchTerm = this.value.trim();
+                if (searchTerm.length >= 2) {
+                    showPlayerDetail(searchTerm);
+                } else if (searchTerm.length === 0) {
+                    document.getElementById('playerDetail').innerHTML = `
+                        <div style="text-align: center; padding: 20px; color: #a5b1c2;">
+                            <i class="fas fa-search" style="font-size: 3rem; margin-bottom: 15px;"></i>
+                            <h3>Zadejte jméno hráče</h3>
+                            <p>Začněte psát jméno hráče pro zobrazení detailů.</p>
+                        </div>
+                    `;
                 }
             });
             

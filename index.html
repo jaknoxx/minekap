@@ -3,84 +3,246 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Minecraft PVP Tierlist Editor</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>Minecraft PVP Tierlist</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #1a1a2e;
+            color: white;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: auto;
+            background: rgba(255,255,255,0.05);
+            padding: 20px;
+            border-radius: 10px;
+        }
+        
+        h1 {
+            color: #00dbde;
+            text-align: center;
+        }
+        
+        .add-player {
+            background: rgba(0,0,0,0.3);
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        
+        input, button {
+            padding: 10px;
+            margin: 5px;
+            border-radius: 5px;
+            border: none;
+        }
+        
+        input {
+            background: rgba(255,255,255,0.1);
+            color: white;
+            width: 200px;
+        }
+        
+        button {
+            background: #0093E9;
+            color: white;
+            cursor: pointer;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        
+        th {
+            background: #0093E9;
+            padding: 10px;
+            text-align: center;
+        }
+        
+        td {
+            padding: 10px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            text-align: center;
+        }
+        
+        .skin {
+            width: 40px;
+            height: 40px;
+            border-radius: 5px;
+            vertical-align: middle;
+            margin-right: 10px;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
-        <h1><i class="fas fa-trophy"></i> Minecraft PVP Tierlist Editor</h1>
+        <h1>⚔️ Minecraft PVP Tierlist</h1>
         
-        <!-- Přidání hráče -->
-        <div class="add-player-form">
-            <h3><i class="fas fa-user-plus"></i> Přidat nového hráče</h3>
-            <div class="form-row">
-                <input type="text" id="player-name" placeholder="Jméno hráče (např. caisem)">
-                <input type="text" id="player-skin" placeholder="Skin URL (nechte prázdné pro default)">
-                <button id="add-player-btn"><i class="fas fa-plus"></i> Přidat hráče</button>
-            </div>
-            <p class="skin-hint">Tip: Použijte <code>https://mc-heads.net/avatar/HRAC/100.png</code></p>
+        <div class="add-player">
+            <h3>➕ Přidat hráče</h3>
+            <input type="text" id="player-name" placeholder="Jméno hráče">
+            <button onclick="addPlayer()">Přidat</button>
         </div>
-
-        <!-- Tabulka -->
-        <div class="table-container">
-            <table id="tierlist">
-                <thead>
-                    <tr>
-                        <th>Pořadí</th>
-                        <th>Hráč</th>
-                        <th>Sword</th>
-                        <th>Axe</th>
-                        <th>UHC</th>
-                        <th>DiaPot</th>
-                        <th>NethPot</th>
-                        <th>SMP</th>
-                        <th>Crystal</th>
-                        <th>Mace</th>
-                        <th>Spear</th>
-                        <th>Celkem bodů</th>
-                        <th>Akce</th>
-                    </tr>
-                </thead>
-                <tbody id="table-body">
-                    <!-- Naplní se z JS -->
-                </tbody>
-            </table>
-        </div>
-
-        <!-- Bodový systém -->
-        <div class="points-info">
-            <h3><i class="fas fa-star"></i> Bodový systém:</h3>
-            <div class="points-grid">
-                <div>LT5 = <span class="point-value">1</span></div>
-                <div>HT5 = <span class="point-value">2</span></div>
-                <div>LT4 = <span class="point-value">3</span></div>
-                <div>HT4 = <span class="point-value">4</span></div>
-                <div>LT3 = <span class="point-value">10</span></div>
-                <div>HT3 = <span class="point-value">15</span></div>
-                <div>LT2 = <span class="point-value">20</span></div>
-                <div>HT2 = <span class="point-value">30</span></div>
-                <div>LT1 = <span class="point-value">45</span></div>
-                <div>HT1 = <span class="point-value">60</span></div>
-            </div>
-            <button id="reset-data" class="reset-btn"><i class="fas fa-trash"></i> Smazat všechna data</button>
+        
+        <table id="tierlist-table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Hráč</th>
+                    <th>Sword</th>
+                    <th>Axe</th>
+                    <th>UHC</th>
+                    <th>DiaPot</th>
+                    <th>NethPot</th>
+                    <th>SMP</th>
+                    <th>Crystal</th>
+                    <th>Mace</th>
+                    <th>Spear</th>
+                    <th>Body</th>
+                </tr>
+            </thead>
+            <tbody id="table-body">
+                <!-- Naplní se JavaScriptem -->
+            </tbody>
+        </table>
+        
+        <div style="margin-top: 20px; color: #aaa; font-size: 14px;">
+            <p><strong>Bodový systém:</strong> LT5=1, HT5=2, LT4=3, HT4=4, LT3=10, HT3=15, LT2=20, HT2=30, LT1=45, HT1=60</p>
         </div>
     </div>
 
-    <!-- Dialog pro úpravu tierů -->
-    <div id="edit-modal" class="modal">
-        <div class="modal-content">
-            <h3><i class="fas fa-edit"></i> Upravit tiery pro <span id="edit-player-name"></span></h3>
-            <div class="kits-edit-container" id="kits-edit-container">
-                <!-- Naplní se dynamicky -->
-            </div>
-            <div class="modal-buttons">
-                <button id="save-edit-btn"><i class="fas fa-save"></i> Uložit změny</button>
-                <button id="cancel-edit-btn"><i class="fas fa-times"></i> Zrušit</button>
-            </div>
-        </div>
-    </div>
-
-    <script src="script.js"></script>
+    <script>
+        // Jednoduchý JavaScript přímo v HTML
+        const tierPoints = {
+            '': 0,
+            'LT5': 1,
+            'HT5': 2,
+            'LT4': 3,
+            'HT4': 4,
+            'LT3': 10,
+            'HT3': 15,
+            'LT2': 20,
+            'HT2': 30,
+            'LT1': 45,
+            'HT1': 60
+        };
+        
+        let players = JSON.parse(localStorage.getItem('minecraft-players')) || [];
+        
+        function saveData() {
+            localStorage.setItem('minecraft-players', JSON.stringify(players));
+        }
+        
+        function calculatePoints(player) {
+            let total = 0;
+            const kits = ['Sword', 'Axe', 'UHC', 'DiaPot', 'NethPot', 'SMP', 'Crystal', 'Mace', 'Spear'];
+            kits.forEach(kit => {
+                const tier = player.kits[kit] || '';
+                total += tierPoints[tier] || 0;
+            });
+            return total;
+        }
+        
+        function renderTable() {
+            const tableBody = document.getElementById('table-body');
+            tableBody.innerHTML = '';
+            
+            // Seřadit hráče podle bodů
+            players.sort((a, b) => calculatePoints(b) - calculatePoints(a));
+            
+            if (players.length === 0) {
+                tableBody.innerHTML = '<tr><td colspan="12" style="text-align: center; padding: 40px;">Žádní hráči. Přidejte prvního hráče!</td></tr>';
+                return;
+            }
+            
+            players.forEach((player, index) => {
+                const row = document.createElement('tr');
+                
+                // Pořadí
+                row.innerHTML += `<td>#${index + 1}</td>`;
+                
+                // Hráč
+                const skinUrl = `https://mc-heads.net/avatar/${player.name}/40.png`;
+                row.innerHTML += `<td><img class="skin" src="${skinUrl}" alt="${player.name}"> ${player.name}</td>`;
+                
+                // Kity
+                const kits = ['Sword', 'Axe', 'UHC', 'DiaPot', 'NethPot', 'SMP', 'Crystal', 'Mace', 'Spear'];
+                kits.forEach(kit => {
+                    const tier = player.kits[kit] || '';
+                    row.innerHTML += `<td>
+                        <select onchange="updateTier('${player.name}', '${kit}', this.value)" style="padding: 5px; background: #2a2a3e; color: white; border: 1px solid #444;">
+                            <option value="" ${tier === '' ? 'selected' : ''}>-</option>
+                            <option value="LT5" ${tier === 'LT5' ? 'selected' : ''}>LT5</option>
+                            <option value="HT5" ${tier === 'HT5' ? 'selected' : ''}>HT5</option>
+                            <option value="LT4" ${tier === 'LT4' ? 'selected' : ''}>LT4</option>
+                            <option value="HT4" ${tier === 'HT4' ? 'selected' : ''}>HT4</option>
+                            <option value="LT3" ${tier === 'LT3' ? 'selected' : ''}>LT3</option>
+                            <option value="HT3" ${tier === 'HT3' ? 'selected' : ''}>HT3</option>
+                            <option value="LT2" ${tier === 'LT2' ? 'selected' : ''}>LT2</option>
+                            <option value="HT2" ${tier === 'HT2' ? 'selected' : ''}>HT2</option>
+                            <option value="LT1" ${tier === 'LT1' ? 'selected' : ''}>LT1</option>
+                            <option value="HT1" ${tier === 'HT1' ? 'selected' : ''}>HT1</option>
+                        </select>
+                    </td>`;
+                });
+                
+                // Body
+                const points = calculatePoints(player);
+                row.innerHTML += `<td style="color: #00ff88; font-weight: bold;">${points}</td>`;
+                
+                tableBody.appendChild(row);
+            });
+        }
+        
+        function addPlayer() {
+            const nameInput = document.getElementById('player-name');
+            const name = nameInput.value.trim();
+            
+            if (!name) {
+                alert('Zadejte jméno hráče!');
+                return;
+            }
+            
+            if (players.some(p => p.name.toLowerCase() === name.toLowerCase())) {
+                alert('Hráč již existuje!');
+                return;
+            }
+            
+            const newPlayer = {
+                name: name,
+                kits: {
+                    Sword: '', Axe: '', UHC: '', DiaPot: '', 
+                    NethPot: '', SMP: '', Crystal: '', Mace: '', Spear: ''
+                }
+            };
+            
+            players.push(newPlayer);
+            saveData();
+            renderTable();
+            nameInput.value = '';
+            nameInput.focus();
+        }
+        
+        function updateTier(playerName, kit, tier) {
+            const player = players.find(p => p.name === playerName);
+            if (player) {
+                player.kits[kit] = tier;
+                saveData();
+                renderTable();
+            }
+        }
+        
+        // Načíst data při startu
+        renderTable();
+        
+        // Enter přidá hráče
+        document.getElementById('player-name').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') addPlayer();
+        });
+    </script>
 </body>
 </html>

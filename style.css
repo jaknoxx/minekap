@@ -1,0 +1,381 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+    color: #fff;
+    margin: 0;
+    padding: 20px;
+    min-height: 100vh;
+}
+
+.container {
+    max-width: 1400px;
+    margin: auto;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+}
+
+h1 {
+    text-align: center;
+    color: #00dbde;
+    margin-bottom: 30px;
+    font-size: 2.5em;
+    text-shadow: 0 0 10px #00dbde;
+}
+
+/* Formulář pro přidání hráče */
+.add-player-form {
+    background: rgba(0, 0, 0, 0.3);
+    padding: 20px;
+    border-radius: 15px;
+    margin-bottom: 30px;
+    border: 1px solid rgba(0, 219, 222, 0.3);
+}
+
+.add-player-form h3 {
+    color: #00ff88;
+    margin-top: 0;
+    margin-bottom: 15px;
+}
+
+.form-row {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.form-row input {
+    flex: 1;
+    min-width: 200px;
+    padding: 12px 15px;
+    border: none;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    font-size: 1em;
+}
+
+.form-row input::placeholder {
+    color: #aaa;
+}
+
+.form-row button {
+    padding: 12px 25px;
+    background: linear-gradient(45deg, #00dbde, #0093E9);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 1em;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.form-row button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 219, 222, 0.4);
+}
+
+.skin-hint {
+    color: #aaa;
+    font-size: 0.9em;
+    margin-top: 10px;
+}
+
+.skin-hint code {
+    background: rgba(0, 0, 0, 0.5);
+    padding: 2px 6px;
+    border-radius: 4px;
+}
+
+/* Tabulka */
+.table-container {
+    overflow-x: auto;
+    margin: 30px 0;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 1em;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+    min-width: 1200px;
+}
+
+thead tr {
+    background: linear-gradient(90deg, #0093E9, #00dbde);
+    color: white;
+    text-align: center;
+    font-weight: bold;
+}
+
+th, td {
+    padding: 15px 10px;
+    text-align: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+tbody tr {
+    transition: background 0.3s;
+}
+
+tbody tr:nth-child(even) {
+    background-color: rgba(255, 255, 255, 0.03);
+}
+
+tbody tr:hover {
+    background-color: rgba(0, 147, 233, 0.15);
+}
+
+/* Buňky */
+.player-cell {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 15px;
+    min-width: 180px;
+}
+
+.skin {
+    width: 48px;
+    height: 48px;
+    border-radius: 8px;
+    border: 3px solid #00dbde;
+    box-shadow: 0 0 8px #00dbde;
+}
+
+.kit-cell {
+    min-width: 100px;
+}
+
+.kit-select {
+    width: 100%;
+    padding: 8px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 6px;
+    color: white;
+    font-size: 0.95em;
+    cursor: pointer;
+    text-align: center;
+}
+
+.kit-select option {
+    background: #1a1a2e;
+    color: white;
+}
+
+.kit-select:hover {
+    border-color: #00dbde;
+}
+
+.rank-cell {
+    font-size: 1.4em;
+    font-weight: bold;
+    color: #ffcc00;
+    min-width: 80px;
+}
+
+.points-cell {
+    font-size: 1.3em;
+    font-weight: bold;
+    color: #00ff88;
+    min-width: 100px;
+}
+
+.action-cell {
+    min-width: 120px;
+}
+
+.action-btn {
+    padding: 8px 15px;
+    margin: 0 5px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s;
+}
+
+.edit-btn {
+    background: linear-gradient(45deg, #ffcc00, #ff9900);
+    color: #000;
+}
+
+.delete-btn {
+    background: linear-gradient(45deg, #ff416c, #ff4b2b);
+    color: white;
+}
+
+.action-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 5px 15px rgba(255, 255, 255, 0.1);
+}
+
+/* Bodový systém */
+.points-info {
+    background: rgba(0, 0, 0, 0.3);
+    padding: 20px;
+    border-radius: 15px;
+    margin-top: 40px;
+    border: 1px solid rgba(255, 204, 0, 0.3);
+}
+
+.points-info h3 {
+    color: #ffcc00;
+    margin-top: 0;
+    margin-bottom: 15px;
+}
+
+.points-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.points-grid div {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 10px;
+    border-radius: 8px;
+    text-align: center;
+    font-size: 1.1em;
+}
+
+.point-value {
+    color: #00ff88;
+    font-weight: bold;
+    font-size: 1.2em;
+}
+
+.reset-btn {
+    padding: 12px 25px;
+    background: linear-gradient(45deg, #ff416c, #ff4b2b);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 1em;
+    transition: transform 0.3s;
+}
+
+.reset-btn:hover {
+    transform: translateY(-2px);
+}
+
+/* Modal */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-content {
+    background: linear-gradient(135deg, #1a1a2e, #16213e);
+    padding: 30px;
+    border-radius: 20px;
+    width: 90%;
+    max-width: 800px;
+    max-height: 90vh;
+    overflow-y: auto;
+    border: 2px solid #00dbde;
+    box-shadow: 0 0 30px rgba(0, 219, 222, 0.5);
+}
+
+.kits-edit-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 15px;
+    margin: 20px 0;
+}
+
+.kit-edit-item {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 15px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.kit-edit-item label {
+    display: block;
+    margin-bottom: 8px;
+    color: #00dbde;
+    font-weight: bold;
+}
+
+.kit-edit-item select {
+    width: 100%;
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 6px;
+    color: white;
+    font-size: 1em;
+}
+
+.modal-buttons {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.modal-buttons button {
+    padding: 12px 30px;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 1em;
+    transition: transform 0.3s;
+}
+
+#save-edit-btn {
+    background: linear-gradient(45deg, #00b09b, #96c93d);
+    color: white;
+}
+
+#cancel-edit-btn {
+    background: linear-gradient(45deg, #ff416c, #ff4b2b);
+    color: white;
+}
+
+.modal-buttons button:hover {
+    transform: translateY(-2px);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .container {
+        padding: 15px;
+    }
+    
+    .form-row {
+        flex-direction: column;
+    }
+    
+    .form-row input, .form-row button {
+        width: 100%;
+    }
+    
+    table {
+        font-size: 0.9em;
+    }
+    
+    th, td {
+        padding: 10px 5px;
+    }
+}

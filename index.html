@@ -54,32 +54,22 @@
             margin-bottom: 20px;
         }
         
-        .admin-login {
-            position: absolute;
-            top: 20px;
-            right: 20px;
+        .edit-info {
+            background: rgba(255, 154, 0, 0.1);
+            border: 1px solid rgba(255, 154, 0, 0.3);
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 20px;
+            text-align: center;
         }
         
-        .admin-btn {
-            background: linear-gradient(45deg, #ff3838, #ff9f1a);
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 50px;
-            cursor: pointer;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            transition: all 0.3s;
+        .edit-info code {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-family: monospace;
         }
         
-        .admin-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(255, 56, 56, 0.3);
-        }
-        
-        /* Tabulka */
         .table-container {
             overflow-x: auto;
             margin: 30px 0;
@@ -137,7 +127,6 @@
             border-bottom: 1px solid rgba(255, 255, 255, 0.05);
         }
         
-        /* Buňka s hráčem */
         .player-cell {
             display: flex;
             align-items: center;
@@ -158,7 +147,6 @@
             font-size: 1.2rem;
         }
         
-        /* Tier buňky */
         .tier-cell {
             font-weight: bold;
             font-size: 1.1rem;
@@ -167,7 +155,6 @@
             min-width: 70px;
         }
         
-        /* Barvy tierů */
         .tier-LT5 { background: #2ecc71; color: white; }
         .tier-HT5 { background: #27ae60; color: white; }
         .tier-LT4 { background: #3498db; color: white; }
@@ -179,7 +166,6 @@
         .tier-LT1 { background: #e67e22; color: white; }
         .tier-HT1 { background: #d35400; color: white; }
         
-        /* Retier - šedá */
         .tier-RLT5, .tier-RHT5, .tier-RLT4, .tier-RHT4,
         .tier-RLT3, .tier-RHT3, .tier-RLT2, .tier-RHT2,
         .tier-RLT1, .tier-RHT1 {
@@ -187,7 +173,6 @@
             color: #2c3e50;
         }
         
-        /* Buňka s body */
         .points-cell {
             font-size: 1.5rem;
             font-weight: bold;
@@ -195,7 +180,6 @@
             text-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
         }
         
-        /* Emoji vedle názvů kitů */
         .kit-header {
             display: flex;
             align-items: center;
@@ -203,7 +187,6 @@
             gap: 8px;
         }
         
-        /* Info panel */
         .info-panel {
             background: rgba(0, 0, 0, 0.3);
             padding: 20px;
@@ -226,145 +209,6 @@
             text-align: center;
         }
         
-        /* Modal - Admin */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            z-index: 1000;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .modal-content {
-            background: linear-gradient(135deg, #2c3e50, #34495e);
-            padding: 30px;
-            border-radius: 20px;
-            width: 90%;
-            max-width: 500px;
-            border: 2px solid #ff9a00;
-        }
-        
-        .modal h2 {
-            color: #ff9a00;
-            margin-bottom: 20px;
-            text-align: center;
-        }
-        
-        .modal-input {
-            width: 100%;
-            padding: 12px;
-            margin: 10px 0;
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 8px;
-            color: white;
-            font-size: 1rem;
-        }
-        
-        .modal-buttons {
-            display: flex;
-            gap: 10px;
-            margin-top: 20px;
-        }
-        
-        .modal-btn {
-            flex: 1;
-            padding: 12px;
-            border: none;
-            border-radius: 8px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        
-        .login-btn {
-            background: linear-gradient(45deg, #2ecc71, #27ae60);
-            color: white;
-        }
-        
-        .cancel-btn {
-            background: linear-gradient(45deg, #e74c3c, #c0392b);
-            color: white;
-        }
-        
-        .add-btn {
-            background: linear-gradient(45deg, #3498db, #2980b9);
-            color: white;
-        }
-        
-        .modal-btn:hover {
-            transform: translateY(-2px);
-        }
-        
-        /* Admin controls */
-        .admin-controls {
-            background: rgba(255, 56, 56, 0.1);
-            padding: 20px;
-            border-radius: 15px;
-            margin: 20px 0;
-            border: 1px solid rgba(255, 56, 56, 0.3);
-            display: none;
-        }
-        
-        .control-buttons {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-        
-        .control-btn {
-            padding: 10px 20px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            transition: all 0.3s;
-        }
-        
-        .add-player-btn {
-            background: linear-gradient(45deg, #2ecc71, #27ae60);
-            color: white;
-        }
-        
-        .edit-btn {
-            background: linear-gradient(45deg, #3498db, #2980b9);
-            color: white;
-        }
-        
-        .delete-btn {
-            background: linear-gradient(45deg, #e74c3c, #c0392b);
-            color: white;
-        }
-        
-        .control-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-        }
-        
-        /* Delete icon in table */
-        .delete-player {
-            color: #e74c3c;
-            cursor: pointer;
-            font-size: 1.2rem;
-            transition: all 0.3s;
-            padding: 5px 10px;
-            border-radius: 5px;
-        }
-        
-        .delete-player:hover {
-            background: rgba(231, 76, 60, 0.2);
-            transform: scale(1.2);
-        }
-        
-        /* Responsive */
         @media (max-width: 768px) {
             .container {
                 padding: 15px;
@@ -372,13 +216,6 @@
             
             h1 {
                 font-size: 2rem;
-            }
-            
-            .admin-login {
-                position: relative;
-                top: 0;
-                right: 0;
-                margin-bottom: 20px;
             }
             
             .player-cell {
@@ -391,35 +228,15 @@
 </head>
 <body>
     <div class="container">
-        <!-- Admin Login Button (top right) -->
-        <div class="admin-login">
-            <button class="admin-btn" onclick="openAdminModal()">
-                <i class="fas fa-lock"></i> Admin přístup
-            </button>
-        </div>
-        
         <header>
             <h1>⚔️ Minecraft PVP Tierlist</h1>
             <div class="subtitle">Oficiální tierlist českého PVP</div>
         </header>
         
-        <!-- Admin Controls (hidden by default) -->
-        <div class="admin-controls" id="adminControls">
-            <h3><i class="fas fa-crown"></i> Admin ovládání</h3>
-            <div class="control-buttons">
-                <button class="control-btn add-player-btn" onclick="openAddPlayerModal()">
-                    <i class="fas fa-user-plus"></i> Přidat hráče
-                </button>
-                <button class="control-btn edit-btn" onclick="enableEditMode()">
-                    <i class="fas fa-edit"></i> Editovat tiery
-                </button>
-                <button class="control-btn delete-btn" onclick="enableDeleteMode()">
-                    <i class="fas fa-trash"></i> Smazat hráče
-                </button>
-            </div>
+        <div class="edit-info">
+            <i class="fas fa-code"></i> Pro úpravy hráčů upravte data v JavaScript kódu (řádky 90-130)
         </div>
         
-        <!-- Main Table -->
         <div class="table-container">
             <table id="tierlistTable">
                 <thead>
@@ -436,16 +253,12 @@
                         <th><div class="kit-header">🔨 Mace</div></th>
                         <th><div class="kit-header">🔱 Spear</div></th>
                         <th>⭐ Body</th>
-                        <th id="actionColumn" style="display: none;">Akce</th>
                     </tr>
                 </thead>
-                <tbody id="tableBody">
-                    <!-- Naplní se JavaScriptem -->
-                </tbody>
+                <tbody id="tableBody"></tbody>
             </table>
         </div>
         
-        <!-- Points Info -->
         <div class="info-panel">
             <h3><i class="fas fa-star"></i> Bodový systém:</h3>
             <div class="points-system">
@@ -459,84 +272,222 @@
                 <div class="point-item">HT2 = <span style="color: #c0392b">30</span></div>
                 <div class="point-item">LT1 = <span style="color: #e67e22">45</span></div>
                 <div class="point-item">HT1 = <span style="color: #d35400">60</span></div>
-                <div class="point-item">Retier = <span style="color: #95a5a6">0</span></div>
             </div>
             <p style="margin-top: 15px; color: #a5b1c2; font-size: 0.9rem;">
-                <i class="fas fa-info-circle"></i> Retier (šedá) = 0 bodů | Obyčejné tiery = barevné
+                <i class="fas fa-info-circle"></i> Retier (šedá) = stejné body jako původní tier
             </p>
-        </div>
-    </div>
-    
-    <!-- Admin Login Modal -->
-    <div class="modal" id="adminModal">
-        <div class="modal-content">
-            <h2><i class="fas fa-lock"></i> Admin přihlášení</h2>
-            <input type="password" id="adminPassword" class="modal-input" placeholder="Zadejte admin heslo">
-            <div class="modal-buttons">
-                <button class="modal-btn login-btn" onclick="loginAdmin()">Přihlásit</button>
-                <button class="modal-btn cancel-btn" onclick="closeAdminModal()">Zrušit</button>
-            </div>
-        </div>
-    </div>
-    
-    <!-- Add Player Modal -->
-    <div class="modal" id="addPlayerModal">
-        <div class="modal-content">
-            <h2><i class="fas fa-user-plus"></i> Přidat nového hráče</h2>
-            <input type="text" id="newPlayerName" class="modal-input" placeholder="Jméno hráče (např. caisem)">
-            <input type="text" id="newPlayerSkin" class="modal-input" placeholder="Skin URL (nechte prázdné pro default)">
-            <p style="color: #a5b1c2; font-size: 0.9rem; margin: 10px 0;">
-                Tip: Použijte <code>https://mc-heads.net/avatar/JMÉNO/100.png</code>
-            </p>
-            <div class="modal-buttons">
-                <button class="modal-btn add-btn" onclick="addNewPlayer()">Přidat hráče</button>
-                <button class="modal-btn cancel-btn" onclick="closeAddPlayerModal()">Zrušit</button>
-            </div>
         </div>
     </div>
 
     <script>
-        // === KONFIGURACE ===
-        const ADMIN_PASSWORD = "minecraft123"; // Změňte si heslo!
-        const kitsOrder = ['Sword', 'Axe', 'UHC', 'DiaPot', 'NethPot', 'SMP', 'Crystal', 'Mace', 'Spear'];
-        const kitEmojis = {
-            'Sword': '🗡️',
-            'Axe': '🪓', 
-            'UHC': '❤️',
-            'DiaPot': '💎',
-            'NethPot': '🔥',
-            'SMP': '🌍',
-            'Crystal': '💎',
-            'Mace': '🔨',
-            'Spear': '🔱'
-        };
+        // ============================================
+        // ZDE UPRAVA HRÁČE A TIERY
+        // ============================================
         
-        // Bodový systém (Retier = 0 bodů)
+        const players = [
+            {
+                name: "jaknox",
+                skin: "",
+                kits: {
+                    Sword: "LT3",
+                    Axe: "LT3",
+                    UHC: "HT4",
+                    DiaPot: "HT4",
+                    NethPot: "HT4",
+                    SMP: "HT4",
+                    Crystal: "HT4",
+                    Mace: "LT4",
+                    Spear: "LT3"
+                }
+            },
+            {
+                name: "YT_lacjim168",
+                skin: "",
+                kits: {
+                    Sword: "LT3",
+                    Axe: "LT4",
+                    UHC: "",
+                    DiaPot: "LT5",
+                    NethPot: "LT5",
+                    SMP: "",
+                    Crystal: "",
+                    Mace: "HT5",
+                    Spear: "HT5"
+                }
+            },
+            {
+                name: "C1tronyx",
+                skin: "",
+                kits: {
+                    Sword: "HT5",
+                    Axe: "LT5",
+                    UHC: "",
+                    DiaPot: "",
+                    NethPot: "",
+                    SMP: "",
+                    Crystal: "LT5",
+                    Mace: "HT5",
+                    Spear: ""
+                }
+            },
+            {
+                name: "Jirkafogus",
+                skin: "",
+                kits: {
+                    Sword: "HT4",
+                    Axe: "HT4",
+                    UHC: "LT3",
+                    DiaPot: "HT4",
+                    NethPot: "",
+                    SMP: "LT3",
+                    Crystal: "HT5",
+                    Mace: "",
+                    Spear: "LT3"
+                }
+            },
+            {
+                name: "SetProfile",
+                skin: "",
+                kits: {
+                    Sword: "LT3",
+                    Axe: "",
+                    UHC: "",
+                    DiaPot: "",
+                    NethPot: "LT4",
+                    SMP: "",
+                    Crystal: "LT5",
+                    Mace: "HT5",
+                    Spear: "LT5"
+                }
+            },
+            {
+                name: "FaZeTraRanTula",
+                skin: "",
+                kits: {
+                    Sword: "HT3",
+                    Axe: "",
+                    UHC: "",
+                    DiaPot: "",
+                    NethPot: "",
+                    SMP: "",
+                    Crystal: "",
+                    Mace: "HT5",
+                    Spear: ""
+                }
+            },
+            {
+                name: "ITzLunas",
+                skin: "",
+                kits: {
+                    Sword: "LT4",
+                    Axe: "",
+                    UHC: "",
+                    DiaPot: "",
+                    NethPot: "",
+                    SMP: "",
+                    Crystal: "LT4",
+                    Mace: "",
+                    Spear: ""
+                }
+            },
+            {
+                name: "Vojtas_",
+                skin: "",
+                kits: {
+                    Sword: "HT4",
+                    Axe: "",
+                    UHC: "HT5",
+                    DiaPot: "",
+                    NethPot: "",
+                    SMP: "HT5",
+                    Crystal: "",
+                    Mace: "HT5",
+                    Spear: ""
+                }
+            },
+            {
+                name: "vlk_1",
+                skin: "",
+                kits: {
+                    Sword: "LT5",
+                    Axe: "",
+                    UHC: "",
+                    DiaPot: "",
+                    NethPot: "",
+                    SMP: "",
+                    Crystal: "",
+                    Mace: "",
+                    Spear: ""
+                }
+            },
+            {
+                name: "doge_cg",
+                skin: "",
+                kits: {
+                    Sword: "",
+                    Axe: "LT4",
+                    UHC: "",
+                    DiaPot: "",
+                    NethPot: "",
+                    SMP: "",
+                    Crystal: "",
+                    Mace: "",
+                    Spear: ""
+                }
+            },
+            {
+                name: "Terry885522",
+                skin: "",
+                kits: {
+                    Sword: "LT5",
+                    Axe: "",
+                    UHC: "",
+                    DiaPot: "",
+                    NethPot: "",
+                    SMP: "",
+                    Crystal: "",
+                    Mace: "",
+                    Spear: "LT5"
+                }
+            }
+            // PŘIDEJ NOVÉHO HRÁČE TAKTO:
+            // {
+            //     name: "JménoHráče",
+            //     skin: "https://mc-heads.net/avatar/JménoHráče/100.png", // Nech prázdné pro auto skin
+            //     kits: {
+            //         Sword: "",
+            //         Axe: "",
+            //         UHC: "",
+            //         DiaPot: "",
+            //         NethPot: "",
+            //         SMP: "",
+            //         Crystal: "",
+            //         Mace: "",
+            //         Spear: ""
+            //     }
+            // }
+        ];
+        
+        // ============================================
+        // BODOVÝ SYSTÉM (NEMĚNIT)
+        // ============================================
+        
         const tierPoints = {
             '': 0,
             'LT5': 1, 'HT5': 2, 'LT4': 3, 'HT4': 4,
             'LT3': 10, 'HT3': 15, 'LT2': 20, 'HT2': 30,
             'LT1': 45, 'HT1': 60,
-            // Retier - 0 bodů
-            'RLT5': 0, 'RHT5': 0, 'RLT4': 0, 'RHT4': 0,
-            'RLT3': 0, 'RHT3': 0, 'RLT2': 0, 'RHT2': 0,
-            'RLT1': 0, 'RHT1': 0
+            'RLT5': 1, 'RHT5': 2, 'RLT4': 3, 'RHT4': 4,
+            'RLT3': 10, 'RHT3': 15, 'RLT2': 20, 'RHT2': 30,
+            'RLT1': 45, 'RHT1': 60
         };
         
-        // === PROMĚNNÉ ===
-        let players = JSON.parse(localStorage.getItem('minecraft-tierlist-players')) || [];
-        let isAdminLoggedIn = false;
-        let isEditMode = false;
-        let isDeleteMode = false;
+        const kitsOrder = ['Sword', 'Axe', 'UHC', 'DiaPot', 'NethPot', 'SMP', 'Crystal', 'Mace', 'Spear'];
         
-        // === FUNKCE ===
+        // ============================================
+        // FUNKCE (NEMĚNIT)
+        // ============================================
         
-        // Uložení dat
-        function saveData() {
-            localStorage.setItem('minecraft-tierlist-players', JSON.stringify(players));
-        }
-        
-        // Výpočet bodů
         function calculatePoints(player) {
             let total = 0;
             kitsOrder.forEach(kit => {
@@ -546,34 +497,30 @@
             return total;
         }
         
-        // Vykreslení tabulky
         function renderTable() {
             const tableBody = document.getElementById('tableBody');
             tableBody.innerHTML = '';
             
-            // Seřazení podle bodů
-            players.sort((a, b) => calculatePoints(b) - calculatePoints(a));
+            const sortedPlayers = [...players].sort((a, b) => calculatePoints(b) - calculatePoints(a));
             
-            if (players.length === 0) {
+            if (sortedPlayers.length === 0) {
                 tableBody.innerHTML = `
                     <tr>
-                        <td colspan="13" style="text-align: center; padding: 40px; color: #aaa;">
+                        <td colspan="12" style="text-align: center; padding: 40px; color: #aaa;">
                             <i class="fas fa-users" style="font-size: 3rem; margin-bottom: 15px; display: block;"></i>
-                            Žádní hráči. Admin může přidat prvního hráče!
+                            Žádní hráči.
                         </td>
                     </tr>
                 `;
                 return;
             }
             
-            players.forEach((player, index) => {
+            sortedPlayers.forEach((player, index) => {
                 const row = document.createElement('tr');
                 const points = calculatePoints(player);
                 
-                // Pořadí
                 row.innerHTML += `<td style="font-weight: bold; color: #ff9a00;">#${index + 1}</td>`;
                 
-                // Hráč + skin
                 const skinUrl = player.skin || `https://mc-heads.net/avatar/${player.name}/100.png`;
                 row.innerHTML += `
                     <td>
@@ -585,229 +532,24 @@
                     </td>
                 `;
                 
-                // Kity
                 kitsOrder.forEach(kit => {
                     const tier = player.kits[kit] || '';
                     const tierClass = tier ? `tier-${tier}` : '';
                     const displayTier = tier || '-';
-                    
-                    if (isEditMode && isAdminLoggedIn) {
-                        // Edit mode - select box
-                        row.innerHTML += `
-                            <td>
-                                <select class="tier-select" data-player="${player.name}" data-kit="${kit}" 
-                                        style="width: 100%; padding: 8px; border-radius: 5px; background: #2c3e50; color: white; border: 1px solid #4a69bd;">
-                                    <option value="">-</option>
-                                    <option value="LT5" ${tier === 'LT5' ? 'selected' : ''}>LT5</option>
-                                    <option value="HT5" ${tier === 'HT5' ? 'selected' : ''}>HT5</option>
-                                    <option value="LT4" ${tier === 'LT4' ? 'selected' : ''}>LT4</option>
-                                    <option value="HT4" ${tier === 'HT4' ? 'selected' : ''}>HT4</option>
-                                    <option value="LT3" ${tier === 'LT3' ? 'selected' : ''}>LT3</option>
-                                    <option value="HT3" ${tier === 'HT3' ? 'selected' : ''}>HT3</option>
-                                    <option value="LT2" ${tier === 'LT2' ? 'selected' : ''}>LT2</option>
-                                    <option value="HT2" ${tier === 'HT2' ? 'selected' : ''}>HT2</option>
-                                    <option value="LT1" ${tier === 'LT1' ? 'selected' : ''}>LT1</option>
-                                    <option value="HT1" ${tier === 'HT1' ? 'selected' : ''}>HT1</option>
-                                    <option disabled>─── Retier ───</option>
-                                    <option value="RLT5" ${tier === 'RLT5' ? 'selected' : ''}>RLT5</option>
-                                    <option value="RHT5" ${tier === 'RHT5' ? 'selected' : ''}>RHT5</option>
-                                    <option value="RLT4" ${tier === 'RLT4' ? 'selected' : ''}>RLT4</option>
-                                    <option value="RHT4" ${tier === 'RHT4' ? 'selected' : ''}>RHT4</option>
-                                    <option value="RLT3" ${tier === 'RLT3' ? 'selected' : ''}>RLT3</option>
-                                    <option value="RHT3" ${tier === 'RHT3' ? 'selected' : ''}>RHT3</option>
-                                    <option value="RLT2" ${tier === 'RLT2' ? 'selected' : ''}>RLT2</option>
-                                    <option value="RHT2" ${tier === 'RHT2' ? 'selected' : ''}>RHT2</option>
-                                    <option value="RLT1" ${tier === 'RLT1' ? 'selected' : ''}>RLT1</option>
-                                    <option value="RHT1" ${tier === 'RHT1' ? 'selected' : ''}>RHT1</option>
-                                </select>
-                            </td>
-                        `;
-                    } else {
-                        // View mode - pouze zobrazení
-                        row.innerHTML += `<td><div class="tier-cell ${tierClass}">${displayTier}</div></td>`;
-                    }
+                    row.innerHTML += `<td><div class="tier-cell ${tierClass}">${displayTier}</div></td>`;
                 });
                 
-                // Body
                 row.innerHTML += `<td class="points-cell">${points}</td>`;
-                
-                // Akce (pro smazání)
-                if (isDeleteMode && isAdminLoggedIn) {
-                    row.innerHTML += `
-                        <td>
-                            <div class="delete-player" onclick="deletePlayer('${player.name}')" title="Smazat hráče">
-                                <i class="fas fa-trash"></i>
-                            </div>
-                        </td>
-                    `;
-                }
                 
                 tableBody.appendChild(row);
             });
-            
-            // Přidání eventů pro select boxy
-            if (isEditMode) {
-                document.querySelectorAll('.tier-select').forEach(select => {
-                    select.addEventListener('change', function() {
-                        const playerName = this.dataset.player;
-                        const kit = this.dataset.kit;
-                        const tier = this.value;
-                        updatePlayerTier(playerName, kit, tier);
-                    });
-                });
-            }
-            
-            // Zobrazení/skrytí akčního sloupce
-            const actionColumn = document.getElementById('actionColumn');
-            actionColumn.style.display = (isDeleteMode && isAdminLoggedIn) ? 'table-cell' : 'none';
         }
         
-        // Aktualizace tieru
-        function updatePlayerTier(playerName, kit, tier) {
-            const player = players.find(p => p.name === playerName);
-            if (player) {
-                player.kits[kit] = tier;
-                saveData();
-                renderTable();
-            }
-        }
+        // ============================================
+        // SPUŠTĚNÍ
+        // ============================================
         
-        // Přidání hráče
-        function addNewPlayer() {
-            const nameInput = document.getElementById('newPlayerName');
-            const skinInput = document.getElementById('newPlayerSkin');
-            const name = nameInput.value.trim();
-            
-            if (!name) {
-                alert('Zadejte jméno hráče!');
-                return;
-            }
-            
-            if (players.some(p => p.name.toLowerCase() === name.toLowerCase())) {
-                alert('Hráč s tímto jménem již existuje!');
-                return;
-            }
-            
-            const newPlayer = {
-                name: name,
-                skin: skinInput.value.trim() || '',
-                kits: {
-                    Sword: '', Axe: '', UHC: '', DiaPot: '',
-                    NethPot: '', SMP: '', Crystal: '', Mace: '', Spear: ''
-                }
-            };
-            
-            players.push(newPlayer);
-            saveData();
-            renderTable();
-            closeAddPlayerModal();
-            alert(`Hráč ${name} byl úspěšně přidán!`);
-        }
-        
-        // Smazání hráče
-        function deletePlayer(playerName) {
-            if (confirm(`Opravdu chcete smazat hráče ${playerName}?`)) {
-                players = players.filter(p => p.name !== playerName);
-                saveData();
-                renderTable();
-                alert(`Hráč ${playerName} byl smazán.`);
-            }
-        }
-        
-        // === ADMIN FUNKCE ===
-        
-        function openAdminModal() {
-            document.getElementById('adminModal').style.display = 'flex';
-            document.getElementById('adminPassword').focus();
-        }
-        
-        function closeAdminModal() {
-            document.getElementById('adminModal').style.display = 'none';
-            document.getElementById('adminPassword').value = '';
-        }
-        
-        function loginAdmin() {
-            const password = document.getElementById('adminPassword').value;
-            
-            if (password === ADMIN_PASSWORD) {
-                isAdminLoggedIn = true;
-                document.getElementById('adminControls').style.display = 'block';
-                document.querySelector('.admin-btn').innerHTML = '<i class="fas fa-crown"></i> Admin mód';
-                document.querySelector('.admin-btn').style.background = 'linear-gradient(45deg, #2ecc71, #27ae60)';
-                closeAdminModal();
-                alert('Admin přihlášení úspěšné!');
-            } else {
-                alert('Špatné heslo!');
-            }
-        }
-        
-        function openAddPlayerModal() {
-            if (!isAdminLoggedIn) {
-                alert('Nejste přihlášen jako admin!');
-                return;
-            }
-            document.getElementById('addPlayerModal').style.display = 'flex';
-            document.getElementById('newPlayerName').focus();
-        }
-        
-        function closeAddPlayerModal() {
-            document.getElementById('addPlayerModal').style.display = 'none';
-            document.getElementById('newPlayerName').value = '';
-            document.getElementById('newPlayerSkin').value = '';
-        }
-        
-        function enableEditMode() {
-            if (!isAdminLoggedIn) {
-                alert('Nejste přihlášen jako admin!');
-                return;
-            }
-            isEditMode = true;
-            isDeleteMode = false;
-            renderTable();
-            alert('Edit mód aktivován. Klikněte na tier pro změnu.');
-        }
-        
-        function enableDeleteMode() {
-            if (!isAdminLoggedIn) {
-                alert('Nejste přihlášen jako admin!');
-                return;
-            }
-            isDeleteMode = true;
-            isEditMode = false;
-            renderTable();
-            alert('Delete mód aktivován. Klikněte na koš pro smazání hráče.');
-        }
-        
-        // === INICIALIZACE ===
-        document.addEventListener('keydown', function(e) {
-            // ESC zavře modaly
-            if (e.key === 'Escape') {
-                closeAdminModal();
-                closeAddPlayerModal();
-            }
-            
-            // Admin přihlášení na Ctrl+Shift+A
-            if (e.ctrlKey && e.shiftKey && e.key === 'A') {
-                e.preventDefault();
-                openAdminModal();
-            }
-        });
-        
-        // Načtení při startu
         renderTable();
-        
-        // Demo data pro testování (můžete smazat)
-        if (players.length === 0) {
-            players = [
-                {
-                    name: "jaknox",
-                    skin: "",
-                    kits: { Sword: "LT3" }
-                }
-            ];
-            saveData();
-            renderTable();
-        }
     </script>
 </body>
 </html>

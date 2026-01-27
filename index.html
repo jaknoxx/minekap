@@ -29,6 +29,123 @@
             padding: 30px;
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
             border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+        }
+        
+        /* Tlačítko s 3 čárkami v pravém horním rohu */
+        .tier-filter-btn {
+            position: absolute;
+            top: 30px;
+            right: 30px;
+            background: rgba(255, 154, 0, 0.2);
+            border: 1px solid rgba(255, 154, 0, 0.4);
+            color: #ff9a00;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 24px;
+            z-index: 100;
+            transition: all 0.3s;
+        }
+        
+        .tier-filter-btn:hover {
+            background: rgba(255, 154, 0, 0.3);
+            transform: scale(1.05);
+        }
+        
+        /* Dropdown menu */
+        .tier-filter-dropdown {
+            position: absolute;
+            top: 90px;
+            right: 30px;
+            background: rgba(0, 0, 0, 0.9);
+            border: 1px solid rgba(255, 154, 0, 0.4);
+            border-radius: 15px;
+            padding: 20px;
+            width: 350px;
+            z-index: 101;
+            display: none;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
+        }
+        
+        .tier-filter-dropdown.active {
+            display: block;
+        }
+        
+        .tier-filter-title {
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            color: #ff9a00;
+            text-align: center;
+            border-bottom: 1px solid rgba(255, 154, 0, 0.3);
+            padding-bottom: 10px;
+        }
+        
+        .filter-section {
+            margin-bottom: 20px;
+        }
+        
+        .filter-label {
+            display: block;
+            margin-bottom: 8px;
+            color: #a5b1c2;
+            font-size: 0.9rem;
+        }
+        
+        .filter-select {
+            width: 100%;
+            padding: 10px 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            color: white;
+            font-size: 1rem;
+        }
+        
+        .filter-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .filter-btn {
+            flex: 1;
+            padding: 10px;
+            background: rgba(255, 154, 0, 0.2);
+            border: 1px solid rgba(255, 154, 0, 0.4);
+            color: white;
+            border-radius: 8px;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.3s;
+        }
+        
+        .filter-btn:hover {
+            background: rgba(255, 154, 0, 0.4);
+        }
+        
+        .filter-btn.apply {
+            background: rgba(46, 204, 113, 0.2);
+            border-color: rgba(46, 204, 113, 0.4);
+        }
+        
+        .filter-btn.apply:hover {
+            background: rgba(46, 204, 113, 0.4);
+        }
+        
+        .filter-status {
+            margin-top: 15px;
+            padding: 10px;
+            background: rgba(255, 154, 0, 0.1);
+            border-radius: 8px;
+            text-align: center;
+            font-size: 0.9rem;
+            color: #ff9a00;
+            display: none;
         }
         
         header {
@@ -36,6 +153,7 @@
             margin-bottom: 30px;
             padding-bottom: 20px;
             border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+            padding-right: 70px; /* Místo pro tlačítko */
         }
         
         h1 {
@@ -223,11 +341,84 @@
                 text-align: center;
                 gap: 5px;
             }
+            
+            .tier-filter-btn {
+                top: 20px;
+                right: 20px;
+            }
+            
+            .tier-filter-dropdown {
+                top: 80px;
+                right: 20px;
+                width: calc(100% - 40px);
+            }
+            
+            header {
+                padding-right: 60px;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
+        <!-- Tlačítko s 3 čárkami -->
+        <div class="tier-filter-btn" id="filterBtn">
+            <i class="fas fa-bars"></i>
+        </div>
+        
+        <!-- Dropdown menu pro filtr -->
+        <div class="tier-filter-dropdown" id="filterDropdown">
+            <div class="tier-filter-title">
+                <i class="fas fa-filter"></i> Filtrovat hráče podle tieru
+            </div>
+            
+            <div class="filter-section">
+                <label class="filter-label">Vyber kit:</label>
+                <select class="filter-select" id="kitSelect">
+                    <option value="">Všechny kity</option>
+                    <option value="Sword">🗡️ Sword</option>
+                    <option value="Axe">🪓 Axe</option>
+                    <option value="UHC">❤️ UHC</option>
+                    <option value="DiaPot">💎 DiaPot</option>
+                    <option value="NethPot">🔥 NethPot</option>
+                    <option value="SMP">🌍 SMP</option>
+                    <option value="Crystal">💎 Crystal</option>
+                    <option value="Mace">🔨 Mace</option>
+                    <option value="Spear">🔱 Spear</option>
+                </select>
+            </div>
+            
+            <div class="filter-section">
+                <label class="filter-label">Vyber tier:</label>
+                <select class="filter-select" id="tierSelect">
+                    <option value="">Všechny tiery</option>
+                    <option value="HT1">HT1</option>
+                    <option value="LT1">LT1</option>
+                    <option value="HT2">HT2</option>
+                    <option value="LT2">LT2</option>
+                    <option value="HT3">HT3</option>
+                    <option value="LT3">LT3</option>
+                    <option value="HT4">HT4</option>
+                    <option value="LT4">LT4</option>
+                    <option value="HT5">HT5</option>
+                    <option value="LT5">LT5</option>
+                </select>
+            </div>
+            
+            <div class="filter-buttons">
+                <div class="filter-btn" id="applyFilter">
+                    <i class="fas fa-check"></i> Použít filtr
+                </div>
+                <div class="filter-btn apply" id="resetFilter">
+                    <i class="fas fa-undo"></i> Zrušit filtr
+                </div>
+            </div>
+            
+            <div class="filter-status" id="filterStatus">
+                <!-- Zde se zobrazí informace o aktuálním filtru -->
+            </div>
+        </div>
+        
         <header>
             <h1>⚔️ Minecraft PVP Tierlist</h1>
             <div class="subtitle">Minekap PVP Tierlist</div>
@@ -481,6 +672,15 @@
         const kitsOrder = ['Sword', 'Axe', 'UHC', 'DiaPot', 'NethPot', 'SMP', 'Crystal', 'Mace', 'Spear'];
         
         // ============================================
+        // PROMĚNNÉ PRO FILTR
+        // ============================================
+        
+        let currentFilter = {
+            kit: '',
+            tier: ''
+        };
+        
+        // ============================================
         // FUNKCE (NEMĚNIT)
         // ============================================
         
@@ -493,18 +693,42 @@
             return total;
         }
         
+        function filterPlayers() {
+            const kit = currentFilter.kit;
+            const tier = currentFilter.tier;
+            
+            if (!kit && !tier) {
+                return players; // Žádný filtr
+            }
+            
+            return players.filter(player => {
+                if (kit && tier) {
+                    // Filtr podle kitu a tieru
+                    return player.kits[kit] === tier;
+                } else if (kit) {
+                    // Filtr pouze podle kitu (zobrazí všechny hráče s jakýmkoli tierem v daném kitu)
+                    return player.kits[kit] !== '';
+                } else if (tier) {
+                    // Filtr pouze podle tieru (zobrazí všechny hráče s tímto tierem v jakémkoli kitu)
+                    return Object.values(player.kits).includes(tier);
+                }
+                return true;
+            });
+        }
+        
         function renderTable() {
             const tableBody = document.getElementById('tableBody');
             tableBody.innerHTML = '';
             
-            const sortedPlayers = [...players].sort((a, b) => calculatePoints(b) - calculatePoints(a));
+            const filteredPlayers = filterPlayers();
+            const sortedPlayers = [...filteredPlayers].sort((a, b) => calculatePoints(b) - calculatePoints(a));
             
             if (sortedPlayers.length === 0) {
                 tableBody.innerHTML = `
                     <tr>
                         <td colspan="12" style="text-align: center; padding: 40px; color: #aaa;">
                             <i class="fas fa-users" style="font-size: 3rem; margin-bottom: 15px; display: block;"></i>
-                            Žádní hráči.
+                            Žádní hráči neodpovídají filtru.
                         </td>
                     </tr>
                 `;
@@ -532,14 +756,97 @@
                     const tier = player.kits[kit] || '';
                     const tierClass = tier ? `tier-${tier}` : '';
                     const displayTier = tier || '-';
-                    row.innerHTML += `<td><div class="tier-cell ${tierClass}">${displayTier}</div></td>`;
+                    
+                    // Zvýraznění pokud je to aktuálně filtrovaný kit
+                    let highlightClass = '';
+                    if (currentFilter.kit === kit && currentFilter.tier === tier) {
+                        highlightClass = 'filter-highlight';
+                    }
+                    
+                    row.innerHTML += `<td><div class="tier-cell ${tierClass} ${highlightClass}">${displayTier}</div></td>`;
                 });
                 
                 row.innerHTML += `<td class="points-cell">${points}</td>`;
                 
                 tableBody.appendChild(row);
             });
+            
+            // Aktualizovat stav filtru
+            updateFilterStatus();
         }
+        
+        function updateFilterStatus() {
+            const filterStatus = document.getElementById('filterStatus');
+            const filteredPlayers = filterPlayers();
+            
+            if (currentFilter.kit || currentFilter.tier) {
+                const kitName = document.querySelector(`#kitSelect option[value="${currentFilter.kit}"]`)?.textContent || 'Všechny kity';
+                const tierName = currentFilter.tier || 'Všechny tiery';
+                
+                filterStatus.innerHTML = `
+                    <i class="fas fa-filter"></i> 
+                    Filtrováno: ${kitName} - ${tierName} 
+                    <br>Nalezeno hráčů: <strong>${filteredPlayers.length}</strong>
+                `;
+                filterStatus.style.display = 'block';
+            } else {
+                filterStatus.style.display = 'none';
+            }
+        }
+        
+        // ============================================
+        // OVLÁDÁNÍ DROPDOWN MENU
+        // ============================================
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            const filterBtn = document.getElementById('filterBtn');
+            const filterDropdown = document.getElementById('filterDropdown');
+            const applyFilterBtn = document.getElementById('applyFilter');
+            const resetFilterBtn = document.getElementById('resetFilter');
+            const kitSelect = document.getElementById('kitSelect');
+            const tierSelect = document.getElementById('tierSelect');
+            
+            // Otevření/zavření dropdown
+            filterBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                filterDropdown.classList.toggle('active');
+            });
+            
+            // Kliknutí mimo dropdown ho zavře
+            document.addEventListener('click', function(e) {
+                if (!filterDropdown.contains(e.target) && !filterBtn.contains(e.target)) {
+                    filterDropdown.classList.remove('active');
+                }
+            });
+            
+            // Použít filtr
+            applyFilterBtn.addEventListener('click', function() {
+                currentFilter.kit = kitSelect.value;
+                currentFilter.tier = tierSelect.value;
+                renderTable();
+                filterDropdown.classList.remove('active');
+            });
+            
+            // Resetovat filtr
+            resetFilterBtn.addEventListener('click', function() {
+                currentFilter.kit = '';
+                currentFilter.tier = '';
+                kitSelect.value = '';
+                tierSelect.value = '';
+                renderTable();
+                filterDropdown.classList.remove('active');
+            });
+            
+            // Možnost zavřít kliknutím na tlačítka
+            [applyFilterBtn, resetFilterBtn].forEach(btn => {
+                btn.addEventListener('click', function() {
+                    filterDropdown.classList.remove('active');
+                });
+            });
+            
+            // Inicializace tabulky
+            renderTable();
+        });
         
         // ============================================
         // SPUŠTĚNÍ

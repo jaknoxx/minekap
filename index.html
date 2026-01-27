@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minecraft PVP Tierlist Editor</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <h1><i class="fas fa-trophy"></i> Minecraft PVP Tierlist Editor</h1>
+        
+        <!-- Přidání hráče -->
+        <div class="add-player-form">
+            <h3><i class="fas fa-user-plus"></i> Přidat nového hráče</h3>
+            <div class="form-row">
+                <input type="text" id="player-name" placeholder="Jméno hráče (např. caisem)">
+                <input type="text" id="player-skin" placeholder="Skin URL (nechte prázdné pro default)">
+                <button id="add-player-btn"><i class="fas fa-plus"></i> Přidat hráče</button>
+            </div>
+            <p class="skin-hint">Tip: Použijte <code>https://mc-heads.net/avatar/HRAC/100.png</code></p>
+        </div>
+
+        <!-- Tabulka -->
+        <div class="table-container">
+            <table id="tierlist">
+                <thead>
+                    <tr>
+                        <th>Pořadí</th>
+                        <th>Hráč</th>
+                        <th>Sword</th>
+                        <th>Axe</th>
+                        <th>UHC</th>
+                        <th>DiaPot</th>
+                        <th>NethPot</th>
+                        <th>SMP</th>
+                        <th>Crystal</th>
+                        <th>Mace</th>
+                        <th>Spear</th>
+                        <th>Celkem bodů</th>
+                        <th>Akce</th>
+                    </tr>
+                </thead>
+                <tbody id="table-body">
+                    <!-- Naplní se z JS -->
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Bodový systém -->
+        <div class="points-info">
+            <h3><i class="fas fa-star"></i> Bodový systém:</h3>
+            <div class="points-grid">
+                <div>LT5 = <span class="point-value">1</span></div>
+                <div>HT5 = <span class="point-value">2</span></div>
+                <div>LT4 = <span class="point-value">3</span></div>
+                <div>HT4 = <span class="point-value">4</span></div>
+                <div>LT3 = <span class="point-value">10</span></div>
+                <div>HT3 = <span class="point-value">15</span></div>
+                <div>LT2 = <span class="point-value">20</span></div>
+                <div>HT2 = <span class="point-value">30</span></div>
+                <div>LT1 = <span class="point-value">45</span></div>
+                <div>HT1 = <span class="point-value">60</span></div>
+            </div>
+            <button id="reset-data" class="reset-btn"><i class="fas fa-trash"></i> Smazat všechna data</button>
+        </div>
+    </div>
+
+    <!-- Dialog pro úpravu tierů -->
+    <div id="edit-modal" class="modal">
+        <div class="modal-content">
+            <h3><i class="fas fa-edit"></i> Upravit tiery pro <span id="edit-player-name"></span></h3>
+            <div class="kits-edit-container" id="kits-edit-container">
+                <!-- Naplní se dynamicky -->
+            </div>
+            <div class="modal-buttons">
+                <button id="save-edit-btn"><i class="fas fa-save"></i> Uložit změny</button>
+                <button id="cancel-edit-btn"><i class="fas fa-times"></i> Zrušit</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -29,8 +29,8 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.9);
-            z-index: 1000;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 2000;
             display: none;
             justify-content: center;
             align-items: center;
@@ -69,6 +69,7 @@
             cursor: pointer;
             font-size: 20px;
             transition: all 0.3s;
+            z-index: 2001;
         }
         
         .close-detail:hover {
@@ -158,8 +159,8 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(12, 36, 97, 0.95);
-            z-index: 1001;
+            background: rgba(12, 36, 97, 0.98);
+            z-index: 2002;
             display: none;
             justify-content: center;
             align-items: center;
@@ -518,8 +519,8 @@
             margin-bottom: 30px;
             padding-bottom: 20px;
             border-bottom: 2px solid rgba(255, 255, 255, 0.1);
-            padding-right: 120px; /* Místo pro tlačítka */
-            padding-left: 200px; /* Místo pro tlačítko Minekap Practice */
+            padding-right: 120px;
+            padding-left: 200px;
         }
         
         h1 {
@@ -536,22 +537,6 @@
             color: #a5b1c2;
             font-size: 1.2rem;
             margin-bottom: 20px;
-        }
-        
-        .edit-info {
-            background: rgba(255, 154, 0, 0.1);
-            border: 1px solid rgba(255, 154, 0, 0.3);
-            border-radius: 10px;
-            padding: 15px;
-            margin-bottom: 20px;
-            text-align: center;
-        }
-        
-        .edit-info code {
-            background: rgba(0, 0, 0, 0.3);
-            padding: 3px 8px;
-            border-radius: 4px;
-            font-family: monospace;
         }
         
         .table-container {
@@ -858,7 +843,7 @@
             
             <div style="text-align: center; margin: 30px 0;">
                 <h3>🚀 Připoj se k nám!</h3>
-                <p>IP adresa: <strong>practice.minekap.cz</strong></p>
+                <p>IP adresa: <strong>mc.minekap.eu</strong></p>
             </div>
             
             <div class="server-links">
@@ -894,7 +879,11 @@
             </div>
             
             <div class="search-player-detail" id="searchPlayerDetail">
-                <!-- Zde se zobrazí detaily hráče při vyhledávání -->
+                <div style="text-align: center; padding: 20px; color: #a5b1c2;">
+                    <i class="fas fa-search" style="font-size: 3rem; margin-bottom: 15px;"></i>
+                    <h3>Zadejte jméno hráče</h3>
+                    <p>Začněte psát jméno hráče pro zobrazení detailů.</p>
+                </div>
             </div>
         </div>
         
@@ -1202,26 +1191,10 @@
                     Spear: "LT5"
                 }
             }
-            // PŘIDEJ NOVÉHO HRÁČE TAKTO:
-            // {
-            //     name: "JménoHráče",
-            //     skin: "https://mc-heads.net/avatar/JménoHráče/100.png", // Nech prázdné pro auto skin
-            //     kits: {
-            //         Sword: "",
-            //         Axe: "",
-            //         UHC: "",
-            //         DiaPot: "",
-            //         NethPot: "",
-            //         SMP: "",
-            //         Crystal: "",
-            //         Mace: "",
-            //         Spear: ""
-            //     }
-            // }
         ];
         
         // ============================================
-        // BODOVÝ SYSTÉM (NEMĚNIT)
+        // BODOVÝ SYSTÉM
         // ============================================
         
         const tierPoints = {
@@ -1282,6 +1255,35 @@
         // FUNKCE PRO DETAIL HRÁČE
         // ============================================
         
+        function calculatePoints(player) {
+            let total = 0;
+            kitsOrder.forEach(kit => {
+                const tier = player.kits[kit] || '';
+                total += tierPoints[tier] || 0;
+            });
+            return total;
+        }
+        
+        function filterPlayers() {
+            const kit = currentFilter.kit;
+            const tier = currentFilter.tier;
+            
+            if (!kit && !tier) {
+                return players;
+            }
+            
+            return players.filter(player => {
+                if (kit && tier) {
+                    return player.kits[kit] === tier;
+                } else if (kit) {
+                    return player.kits[kit] !== '';
+                } else if (tier) {
+                    return Object.values(player.kits).includes(tier);
+                }
+                return true;
+            });
+        }
+        
         function showPlayerDetail(player) {
             const playerOverlay = document.getElementById('playerOverlay');
             const playerDetailCard = document.getElementById('playerDetailCard');
@@ -1334,38 +1336,6 @@
             document.body.style.overflow = 'hidden';
         }
         
-        function calculatePoints(player) {
-            let total = 0;
-            kitsOrder.forEach(kit => {
-                const tier = player.kits[kit] || '';
-                total += tierPoints[tier] || 0;
-            });
-            return total;
-        }
-        
-        function filterPlayers() {
-            const kit = currentFilter.kit;
-            const tier = currentFilter.tier;
-            
-            if (!kit && !tier) {
-                return players; // Žádný filtr
-            }
-            
-            return players.filter(player => {
-                if (kit && tier) {
-                    // Filtr podle kitu a tieru
-                    return player.kits[kit] === tier;
-                } else if (kit) {
-                    // Filtr pouze podle kitu (zobrazí všechny hráče s jakýmkoli tierem v daném kitu)
-                    return player.kits[kit] !== '';
-                } else if (tier) {
-                    // Filtr pouze podle tieru (zobrazí všechny hráče s tímto tierem v jakémkoli kitu)
-                    return Object.values(player.kits).includes(tier);
-                }
-                return true;
-            });
-        }
-        
         function renderTable() {
             const tableBody = document.getElementById('tableBody');
             tableBody.innerHTML = '';
@@ -1416,7 +1386,6 @@
                     const tierClass = tier ? `tier-${tier}` : '';
                     const displayTier = tier || '-';
                     
-                    // Zvýraznění pokud je to aktuálně filtrovaný kit
                     let highlightClass = '';
                     if (currentFilter.kit === kit && currentFilter.tier === tier) {
                         highlightClass = 'filter-highlight';
@@ -1430,7 +1399,6 @@
                 tableBody.appendChild(row);
             });
             
-            // Aktualizovat stav filtru
             updateFilterStatus();
         }
         
@@ -1507,6 +1475,10 @@
         // ============================================
         
         document.addEventListener('DOMContentLoaded', function() {
+            // Inicializace tabulky
+            renderTable();
+            
+            // Získání všech elementů
             const filterBtn = document.getElementById('filterBtn');
             const searchBtn = document.getElementById('searchBtn');
             const filterDropdown = document.getElementById('filterDropdown');
@@ -1563,20 +1535,6 @@
                 if (!searchResults.contains(e.target) && !searchBtn.contains(e.target)) {
                     searchResults.classList.remove('active');
                 }
-                // Kliknutí mimo detail hráče
-                if (playerOverlay.classList.contains('active') && 
-                    !document.querySelector('.player-detail-card').contains(e.target) && 
-                    e.target !== playerOverlay) {
-                    playerOverlay.classList.remove('active');
-                    document.body.style.overflow = 'auto';
-                }
-                // Kliknutí mimo server info
-                if (serverOverlay.classList.contains('active') && 
-                    !document.querySelector('.server-card').contains(e.target) && 
-                    e.target !== serverOverlay) {
-                    serverOverlay.classList.remove('active');
-                    document.body.style.overflow = 'auto';
-                }
             });
             
             // Vyhledávání hráče při psaní
@@ -1619,16 +1577,7 @@
                     filterDropdown.classList.remove('active');
                 });
             });
-            
-            // Inicializace tabulky
-            renderTable();
         });
-        
-        // ============================================
-        // SPUŠTĚNÍ
-        // ============================================
-        
-        renderTable();
     </script>
 </body>
 </html>

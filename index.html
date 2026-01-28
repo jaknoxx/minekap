@@ -57,24 +57,36 @@
             position: absolute;
             top: 20px;
             right: 20px;
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.3);
+            background: rgba(231, 76, 60, 0.9);
+            border: 2px solid #fff;
             color: white;
-            width: 40px;
-            height: 40px;
+            width: 50px;
+            height: 50px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            font-size: 20px;
+            font-size: 24px;
             transition: all 0.3s;
             z-index: 2001;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
         }
         
         .close-detail:hover {
-            background: rgba(255, 154, 0, 0.5);
-            transform: rotate(90deg);
+            background: rgba(231, 76, 60, 1);
+            transform: rotate(90deg) scale(1.1);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+        }
+        
+        .close-text {
+            position: absolute;
+            top: 75px;
+            right: 15px;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.8rem;
+            text-align: center;
+            width: 60px;
         }
         
         .detail-header {
@@ -817,9 +829,6 @@
     <!-- Překryv pro detail hráče -->
     <div class="player-overlay" id="playerOverlay">
         <div class="player-detail-card" id="playerDetailCard">
-            <div class="close-detail" id="closeDetail">
-                <i class="fas fa-times"></i>
-            </div>
             <!-- Detail hráče se naplní JavaScriptem -->
         </div>
     </div>
@@ -830,6 +839,7 @@
             <div class="close-detail" id="closeServer">
                 <i class="fas fa-times"></i>
             </div>
+            <div class="close-text">Zavřít</div>
             <h1>⚔️ Minekap Practice</h1>
             <p>Minecraft server zaměřený na PVP, kde najdete různé módy jako duely, FFA, party boje a mnoho cosmetic items pro přizpůsobení vašeho hráče.</p>
             
@@ -1293,12 +1303,14 @@
             const headUrl = `https://mc-heads.net/avatar/${player.name}/300.png`;
             
             let tiersHTML = '';
+            let hasTiers = false;
             kitsOrder.forEach(kit => {
                 const tier = player.kits[kit] || '';
                 const tierClass = tier ? `tier-${tier}` : '';
                 const tierDisplay = tier || '-';
                 
                 if (tier) {
+                    hasTiers = true;
                     tiersHTML += `
                         <div class="detail-tier-item">
                             <div class="detail-tier-value ${tierClass}">${tier}</div>
@@ -1316,6 +1328,11 @@
             });
             
             playerDetailCard.innerHTML = `
+                <div class="close-detail" id="closeDetailBtn" title="Zavřít profil">
+                    <i class="fas fa-times"></i>
+                </div>
+                <div class="close-text">Zavřít</div>
+                
                 <div class="detail-header">
                     <img class="detail-head" src="${headUrl}" alt="${player.name}" 
                          onerror="this.src='https://mc-heads.net/avatar/Steve/300.png'">
@@ -1326,7 +1343,9 @@
                     </div>
                 </div>
                 
-                <h3 style="margin-bottom: 15px; color: #ff9a00;">Tiery v kitem:</h3>
+                <h3 style="margin-bottom: 15px; color: #ff9a00;">
+                    <i class="fas fa-layer-group"></i> Tiery v kitem:
+                </h3>
                 <div class="detail-tiers-grid">
                     ${tiersHTML}
                 </div>
@@ -1334,6 +1353,15 @@
             
             playerOverlay.classList.add('active');
             document.body.style.overflow = 'hidden';
+            
+            // Přidat event listener pro křížek
+            const closeDetailBtn = document.getElementById('closeDetailBtn');
+            if (closeDetailBtn) {
+                closeDetailBtn.addEventListener('click', function() {
+                    playerOverlay.classList.remove('active');
+                    document.body.style.overflow = 'auto';
+                });
+            }
         }
         
         function renderTable() {
@@ -1360,7 +1388,6 @@
                 const points = calculatePoints(player);
                 const title = getTitle(points);
                 
-                // Přidat onclick událost pro zobrazení detailu
                 row.addEventListener('click', () => {
                     showPlayerDetail(player);
                 });
@@ -1475,10 +1502,8 @@
         // ============================================
         
         document.addEventListener('DOMContentLoaded', function() {
-            // Inicializace tabulky
             renderTable();
             
-            // Získání všech elementů
             const filterBtn = document.getElementById('filterBtn');
             const searchBtn = document.getElementById('searchBtn');
             const filterDropdown = document.getElementById('filterDropdown');
@@ -1488,20 +1513,17 @@
             const kitSelect = document.getElementById('kitSelect');
             const tierSelect = document.getElementById('tierSelect');
             const playerSearch = document.getElementById('playerSearch');
-            const closeDetail = document.getElementById('closeDetail');
             const playerOverlay = document.getElementById('playerOverlay');
             const serverBtn = document.getElementById('serverBtn');
             const serverOverlay = document.getElementById('serverOverlay');
             const closeServer = document.getElementById('closeServer');
             
-            // Otevření/zavření dropdown pro filtr
             filterBtn.addEventListener('click', function(e) {
                 e.stopPropagation();
                 filterDropdown.classList.toggle('active');
                 searchResults.classList.remove('active');
             });
             
-            // Otevření/zavření dropdown pro vyhledávání
             searchBtn.addEventListener('click', function(e) {
                 e.stopPropagation();
                 searchResults.classList.toggle('active');
@@ -1509,25 +1531,16 @@
                 playerSearch.focus();
             });
             
-            // Zavření detailu hráče
-            closeDetail.addEventListener('click', function() {
-                playerOverlay.classList.remove('active');
-                document.body.style.overflow = 'auto';
-            });
-            
-            // Zavření přehledu serveru
             closeServer.addEventListener('click', function() {
                 serverOverlay.classList.remove('active');
                 document.body.style.overflow = 'auto';
             });
             
-            // Otevření přehledu serveru
             serverBtn.addEventListener('click', function() {
                 serverOverlay.classList.add('active');
                 document.body.style.overflow = 'hidden';
             });
             
-            // Kliknutí mimo dropdowny je zavře
             document.addEventListener('click', function(e) {
                 if (!filterDropdown.contains(e.target) && !filterBtn.contains(e.target)) {
                     filterDropdown.classList.remove('active');
@@ -1535,9 +1548,12 @@
                 if (!searchResults.contains(e.target) && !searchBtn.contains(e.target)) {
                     searchResults.classList.remove('active');
                 }
+                if (playerOverlay.classList.contains('active') && e.target === playerOverlay) {
+                    playerOverlay.classList.remove('active');
+                    document.body.style.overflow = 'auto';
+                }
             });
             
-            // Vyhledávání hráče při psaní
             playerSearch.addEventListener('input', function() {
                 const searchTerm = this.value.trim();
                 if (searchTerm.length >= 2) {
@@ -1553,7 +1569,6 @@
                 }
             });
             
-            // Použít filtr
             applyFilterBtn.addEventListener('click', function() {
                 currentFilter.kit = kitSelect.value;
                 currentFilter.tier = tierSelect.value;
@@ -1561,7 +1576,6 @@
                 filterDropdown.classList.remove('active');
             });
             
-            // Resetovat filtr
             resetFilterBtn.addEventListener('click', function() {
                 currentFilter.kit = '';
                 currentFilter.tier = '';
@@ -1569,13 +1583,6 @@
                 tierSelect.value = '';
                 renderTable();
                 filterDropdown.classList.remove('active');
-            });
-            
-            // Možnost zavřít kliknutím na tlačítka
-            [applyFilterBtn, resetFilterBtn].forEach(btn => {
-                btn.addEventListener('click', function() {
-                    filterDropdown.classList.remove('active');
-                });
             });
         });
     </script>

@@ -18,6 +18,279 @@
             color: white;
             min-height: 100vh;
             padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+        /* Překryv pro detail hráče */
+        .player-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 1000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            overflow-y: auto;
+        }
+        
+        .player-overlay.active {
+            display: flex;
+        }
+        
+        .player-detail-card {
+            background: linear-gradient(135deg, #1e3799, #4a69bd);
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 800px;
+            width: 100%;
+            border: 3px solid #ff9a00;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7);
+            position: relative;
+        }
+        
+        .close-detail {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 20px;
+            transition: all 0.3s;
+        }
+        
+        .close-detail:hover {
+            background: rgba(255, 154, 0, 0.5);
+            transform: rotate(90deg);
+        }
+        
+        .detail-header {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .detail-head {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            border: 5px solid #ff9a00;
+            box-shadow: 0 10px 30px rgba(255, 154, 0, 0.5);
+        }
+        
+        .detail-name {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .detail-title {
+            font-size: 1.5rem;
+            padding: 8px 20px;
+            border-radius: 25px;
+            display: inline-block;
+        }
+        
+        .detail-points {
+            font-size: 2rem;
+            color: #00ff88;
+            margin: 20px 0;
+            text-shadow: 0 0 15px rgba(0, 255, 136, 0.7);
+        }
+        
+        .detail-tiers-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .detail-tier-item {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 15px;
+            text-align: center;
+            transition: all 0.3s;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .detail-tier-item:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        .detail-tier-value {
+            font-size: 1.8rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+            padding: 10px;
+            border-radius: 8px;
+        }
+        
+        .detail-tier-kit {
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.8);
+            margin-top: 5px;
+        }
+        
+        .empty-tier {
+            color: rgba(255, 255, 255, 0.3);
+            font-style: italic;
+        }
+        
+        /* Server info stránka */
+        .server-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(12, 36, 97, 0.95);
+            z-index: 1001;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            overflow-y: auto;
+        }
+        
+        .server-overlay.active {
+            display: flex;
+        }
+        
+        .server-card {
+            background: linear-gradient(135deg, #27ae60, #2ecc71);
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 700px;
+            width: 100%;
+            border: 3px solid #f1c40f;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7);
+            position: relative;
+            color: #2c3e50;
+        }
+        
+        .server-card h1 {
+            font-size: 3rem;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            text-align: center;
+            text-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
+        }
+        
+        .server-card p {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            margin-bottom: 30px;
+            color: #2c3e50;
+            text-align: center;
+        }
+        
+        .owner-info {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            background: rgba(231, 76, 60, 0.2);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 30px 0;
+            border: 2px solid #e74c3c;
+        }
+        
+        .owner-head {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            border: 3px solid #e74c3c;
+            box-shadow: 0 5px 15px rgba(231, 76, 60, 0.4);
+        }
+        
+        .owner-name {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #c0392b;
+        }
+        
+        .server-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 30px;
+        }
+        
+        .server-link {
+            padding: 15px 30px;
+            background: rgba(52, 152, 219, 0.2);
+            border: 2px solid #3498db;
+            border-radius: 12px;
+            color: #2c3e50;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.1rem;
+            transition: all 0.3s;
+            text-align: center;
+            flex: 1;
+            max-width: 200px;
+        }
+        
+        .server-link:hover {
+            background: rgba(52, 152, 219, 0.4);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        .server-link.discord {
+            background: rgba(114, 137, 218, 0.2);
+            border-color: #7289da;
+        }
+        
+        .server-link.discord:hover {
+            background: rgba(114, 137, 218, 0.4);
+        }
+        
+        /* Tlačítko Minekap Practice */
+        .server-btn {
+            position: absolute;
+            top: 30px;
+            left: 30px;
+            background: linear-gradient(45deg, #27ae60, #2ecc71);
+            border: 2px solid #f1c40f;
+            color: #2c3e50;
+            padding: 12px 25px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: bold;
+            z-index: 100;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        .server-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+            background: linear-gradient(45deg, #2ecc71, #27ae60);
+        }
+        
+        .server-btn i {
+            font-size: 1.3rem;
         }
         
         .container {
@@ -182,11 +455,11 @@
             display: block;
         }
         
-        .player-detail {
+        .search-player-detail {
             text-align: center;
         }
         
-        .detail-skin {
+        .search-detail-skin {
             width: 150px;
             height: 150px;
             border-radius: 15px;
@@ -196,13 +469,13 @@
             display: block;
         }
         
-        .detail-name {
+        .search-detail-name {
             font-size: 2rem;
             margin-bottom: 5px;
             color: white;
         }
         
-        .detail-title {
+        .search-detail-title {
             font-size: 1.2rem;
             margin-bottom: 20px;
             padding: 5px 15px;
@@ -210,14 +483,14 @@
             display: inline-block;
         }
         
-        .detail-points {
+        .search-detail-points {
             font-size: 1.5rem;
             color: #00ff88;
             margin-bottom: 25px;
             text-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
         }
         
-        .detail-tiers {
+        .search-detail-tiers {
             display: flex;
             flex-wrap: wrap;
             gap: 10px;
@@ -225,7 +498,7 @@
             margin-top: 20px;
         }
         
-        .detail-tier {
+        .search-detail-tier {
             padding: 8px 15px;
             border-radius: 8px;
             font-weight: bold;
@@ -233,7 +506,7 @@
             text-align: center;
         }
         
-        .kit-label {
+        .search-kit-label {
             font-size: 0.8rem;
             color: rgba(255, 255, 255, 0.7);
             margin-top: 5px;
@@ -246,6 +519,7 @@
             padding-bottom: 20px;
             border-bottom: 2px solid rgba(255, 255, 255, 0.1);
             padding-right: 120px; /* Místo pro tlačítka */
+            padding-left: 200px; /* Místo pro tlačítko Minekap Practice */
         }
         
         h1 {
@@ -319,6 +593,7 @@
         tbody tr {
             background: rgba(255, 255, 255, 0.02);
             transition: all 0.3s;
+            cursor: pointer;
         }
         
         tbody tr:nth-child(even) {
@@ -463,6 +738,20 @@
             border-radius: 4px;
         }
         
+        @media (max-width: 1100px) {
+            .server-btn {
+                position: relative;
+                top: 0;
+                left: 0;
+                margin-bottom: 20px;
+                display: inline-block;
+            }
+            
+            header {
+                padding-left: 30px;
+            }
+        }
+        
         @media (max-width: 768px) {
             .container {
                 padding: 15px;
@@ -496,11 +785,93 @@
             
             header {
                 padding-right: 100px;
+                padding-left: 20px;
+            }
+            
+            .detail-tiers-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .detail-header {
+                flex-direction: column;
+                text-align: center;
+                gap: 20px;
+            }
+            
+            .server-card {
+                padding: 20px;
+            }
+            
+            .server-card h1 {
+                font-size: 2rem;
+            }
+            
+            .server-links {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .server-link {
+                max-width: 100%;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .detail-tiers-grid {
+                grid-template-columns: 1fr;
             }
         }
     </style>
 </head>
 <body>
+    <!-- Tlačítko Minekap Practice -->
+    <div class="server-btn" id="serverBtn">
+        <i class="fas fa-server"></i> Minekap Practice
+    </div>
+    
+    <!-- Překryv pro detail hráče -->
+    <div class="player-overlay" id="playerOverlay">
+        <div class="player-detail-card" id="playerDetailCard">
+            <div class="close-detail" id="closeDetail">
+                <i class="fas fa-times"></i>
+            </div>
+            <!-- Detail hráče se naplní JavaScriptem -->
+        </div>
+    </div>
+    
+    <!-- Stránka s informacemi o serveru -->
+    <div class="server-overlay" id="serverOverlay">
+        <div class="server-card">
+            <div class="close-detail" id="closeServer">
+                <i class="fas fa-times"></i>
+            </div>
+            <h1>⚔️ Minekap Practice</h1>
+            <p>Minecraft server zaměřený na PVP, kde najdete různé módy jako duely, FFA, party boje a mnoho cosmetic items pro přizpůsobení vašeho hráče.</p>
+            
+            <div class="owner-info">
+                <img class="owner-head" src="https://mc-heads.net/avatar/jaknox/150.png" alt="Owner Head">
+                <div>
+                    <div class="owner-name">Owner: jaknox</div>
+                    <p>Zakladatel a hlavní admin serveru</p>
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin: 30px 0;">
+                <h3>🚀 Připoj se k nám!</h3>
+                <p>IP adresa: <strong>practice.minekap.cz</strong></p>
+            </div>
+            
+            <div class="server-links">
+                <a href="https://dsc.gg/minekap" target="_blank" class="server-link discord">
+                    <i class="fab fa-discord"></i> Discord
+                </a>
+                <a href="https://craftlist.org/minekap#vote" target="_blank" class="server-link">
+                    <i class="fas fa-vote-yea"></i> Vote
+                </a>
+            </div>
+        </div>
+    </div>
+    
     <div class="container">
         <!-- Kontrolky v pravém horním rohu -->
         <div class="top-controls">
@@ -522,8 +893,8 @@
                 <input type="text" class="search-input" id="playerSearch" placeholder="Zadejte jméno hráče...">
             </div>
             
-            <div class="player-detail" id="playerDetail">
-                <!-- Zde se zobrazí detaily hráče -->
+            <div class="search-player-detail" id="searchPlayerDetail">
+                <!-- Zde se zobrazí detaily hráče při vyhledávání -->
             </div>
         </div>
         
@@ -655,7 +1026,7 @@
             </div>
             
             <p style="margin-top: 15px; color: #a5b1c2; font-size: 0.9rem;">
-                <i class="fas fa-info-circle"></i> Retier (šedá) = stejné body jako původní tier
+                <i class="fas fa-info-circle"></i> Klikněte na hráče v tabulce pro zobrazení detailního profilu
             </p>
         </div>
     </div>
@@ -908,8 +1279,60 @@
         };
         
         // ============================================
-        // FUNKCE (NEMĚNIT)
+        // FUNKCE PRO DETAIL HRÁČE
         // ============================================
+        
+        function showPlayerDetail(player) {
+            const playerOverlay = document.getElementById('playerOverlay');
+            const playerDetailCard = document.getElementById('playerDetailCard');
+            
+            const points = calculatePoints(player);
+            const title = getTitle(points);
+            const headUrl = `https://mc-heads.net/avatar/${player.name}/300.png`;
+            
+            let tiersHTML = '';
+            kitsOrder.forEach(kit => {
+                const tier = player.kits[kit] || '';
+                const tierClass = tier ? `tier-${tier}` : '';
+                const tierDisplay = tier || '-';
+                
+                if (tier) {
+                    tiersHTML += `
+                        <div class="detail-tier-item">
+                            <div class="detail-tier-value ${tierClass}">${tier}</div>
+                            <div class="detail-tier-kit">${kitLabels[kit]}</div>
+                        </div>
+                    `;
+                } else {
+                    tiersHTML += `
+                        <div class="detail-tier-item">
+                            <div class="detail-tier-value empty-tier">-</div>
+                            <div class="detail-tier-kit">${kitLabels[kit]}</div>
+                        </div>
+                    `;
+                }
+            });
+            
+            playerDetailCard.innerHTML = `
+                <div class="detail-header">
+                    <img class="detail-head" src="${headUrl}" alt="${player.name}" 
+                         onerror="this.src='https://mc-heads.net/avatar/Steve/300.png'">
+                    <div>
+                        <h2 class="detail-name">${player.name}</h2>
+                        <div class="detail-title ${title.class}">${title.name}</div>
+                        <div class="detail-points">${points} bodů</div>
+                    </div>
+                </div>
+                
+                <h3 style="margin-bottom: 15px; color: #ff9a00;">Tiery v kitem:</h3>
+                <div class="detail-tiers-grid">
+                    ${tiersHTML}
+                </div>
+            `;
+            
+            playerOverlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
         
         function calculatePoints(player) {
             let total = 0;
@@ -967,6 +1390,11 @@
                 const points = calculatePoints(player);
                 const title = getTitle(points);
                 
+                // Přidat onclick událost pro zobrazení detailu
+                row.addEventListener('click', () => {
+                    showPlayerDetail(player);
+                });
+                
                 row.innerHTML += `<td style="font-weight: bold; color: #ff9a00;">#${index + 1}</td>`;
                 
                 const skinUrl = player.skin || `https://mc-heads.net/avatar/${player.name}/100.png`;
@@ -1006,13 +1434,13 @@
             updateFilterStatus();
         }
         
-        function showPlayerDetail(playerName) {
-            const playerDetail = document.getElementById('playerDetail');
+        function showSearchPlayerDetail(playerName) {
+            const searchPlayerDetail = document.getElementById('searchPlayerDetail');
             const searchResults = document.getElementById('searchResults');
             const player = players.find(p => p.name.toLowerCase() === playerName.toLowerCase());
             
             if (!player) {
-                playerDetail.innerHTML = `
+                searchPlayerDetail.innerHTML = `
                     <div style="text-align: center; padding: 20px; color: #e74c3c;">
                         <i class="fas fa-user-times" style="font-size: 3rem; margin-bottom: 15px;"></i>
                         <h3>Hráč nenalezen</h3>
@@ -1034,20 +1462,20 @@
                     const tierClass = tier ? `tier-${tier}` : '';
                     tiersHTML += `
                         <div>
-                            <div class="detail-tier ${tierClass}">${tier}</div>
-                            <div class="kit-label">${kitLabels[kit]}</div>
+                            <div class="search-detail-tier ${tierClass}">${tier}</div>
+                            <div class="search-kit-label">${kitLabels[kit]}</div>
                         </div>
                     `;
                 }
             });
             
-            playerDetail.innerHTML = `
-                <img class="detail-skin" src="${skinUrl}" alt="${player.name}" 
+            searchPlayerDetail.innerHTML = `
+                <img class="search-detail-skin" src="${skinUrl}" alt="${player.name}" 
                      onerror="this.src='https://mc-heads.net/avatar/Steve/300.png'">
-                <h2 class="detail-name">${player.name}</h2>
-                <div class="detail-title ${title.class}">${title.name}</div>
-                <div class="detail-points">${points} bodů</div>
-                <div class="detail-tiers">
+                <h2 class="search-detail-name">${player.name}</h2>
+                <div class="search-detail-title ${title.class}">${title.name}</div>
+                <div class="search-detail-points">${points} bodů</div>
+                <div class="search-detail-tiers">
                     ${tiersHTML}
                 </div>
             `;
@@ -1088,6 +1516,11 @@
             const kitSelect = document.getElementById('kitSelect');
             const tierSelect = document.getElementById('tierSelect');
             const playerSearch = document.getElementById('playerSearch');
+            const closeDetail = document.getElementById('closeDetail');
+            const playerOverlay = document.getElementById('playerOverlay');
+            const serverBtn = document.getElementById('serverBtn');
+            const serverOverlay = document.getElementById('serverOverlay');
+            const closeServer = document.getElementById('closeServer');
             
             // Otevření/zavření dropdown pro filtr
             filterBtn.addEventListener('click', function(e) {
@@ -1104,6 +1537,24 @@
                 playerSearch.focus();
             });
             
+            // Zavření detailu hráče
+            closeDetail.addEventListener('click', function() {
+                playerOverlay.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            });
+            
+            // Zavření přehledu serveru
+            closeServer.addEventListener('click', function() {
+                serverOverlay.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            });
+            
+            // Otevření přehledu serveru
+            serverBtn.addEventListener('click', function() {
+                serverOverlay.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            });
+            
             // Kliknutí mimo dropdowny je zavře
             document.addEventListener('click', function(e) {
                 if (!filterDropdown.contains(e.target) && !filterBtn.contains(e.target)) {
@@ -1112,15 +1563,29 @@
                 if (!searchResults.contains(e.target) && !searchBtn.contains(e.target)) {
                     searchResults.classList.remove('active');
                 }
+                // Kliknutí mimo detail hráče
+                if (playerOverlay.classList.contains('active') && 
+                    !document.querySelector('.player-detail-card').contains(e.target) && 
+                    e.target !== playerOverlay) {
+                    playerOverlay.classList.remove('active');
+                    document.body.style.overflow = 'auto';
+                }
+                // Kliknutí mimo server info
+                if (serverOverlay.classList.contains('active') && 
+                    !document.querySelector('.server-card').contains(e.target) && 
+                    e.target !== serverOverlay) {
+                    serverOverlay.classList.remove('active');
+                    document.body.style.overflow = 'auto';
+                }
             });
             
             // Vyhledávání hráče při psaní
             playerSearch.addEventListener('input', function() {
                 const searchTerm = this.value.trim();
                 if (searchTerm.length >= 2) {
-                    showPlayerDetail(searchTerm);
+                    showSearchPlayerDetail(searchTerm);
                 } else if (searchTerm.length === 0) {
-                    document.getElementById('playerDetail').innerHTML = `
+                    document.getElementById('searchPlayerDetail').innerHTML = `
                         <div style="text-align: center; padding: 20px; color: #a5b1c2;">
                             <i class="fas fa-search" style="font-size: 3rem; margin-bottom: 15px;"></i>
                             <h3>Zadejte jméno hráče</h3>

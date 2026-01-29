@@ -3,1588 +3,314 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Minecraft PVP Tierlist</title>
+    <title>Minekap Tier List</title>
+    <link rel="stylesheet" href="css/styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #0c2461, #1e3799, #4a69bd);
-            color: white;
-            min-height: 100vh;
-            padding: 20px;
-            position: relative;
-            overflow-x: hidden;
-        }
-        
-        /* Překryv pro detail hráče */
-        .player-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.95);
-            z-index: 2000;
-            display: none;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-            overflow-y: auto;
-        }
-        
-        .player-overlay.active {
-            display: flex;
-        }
-        
-        .player-detail-card {
-            background: linear-gradient(135deg, #1e3799, #4a69bd);
-            border-radius: 20px;
-            padding: 30px;
-            max-width: 800px;
-            width: 100%;
-            border: 3px solid #ff9a00;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7);
-            position: relative;
-        }
-        
-        .close-detail {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background: rgba(231, 76, 60, 0.9);
-            border: 2px solid #fff;
-            color: white;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            font-size: 24px;
-            transition: all 0.3s;
-            z-index: 2001;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-        }
-        
-        .close-detail:hover {
-            background: rgba(231, 76, 60, 1);
-            transform: rotate(90deg) scale(1.1);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
-        }
-        
-        .close-text {
-            position: absolute;
-            top: 75px;
-            right: 15px;
-            color: rgba(255, 255, 255, 0.8);
-            font-size: 0.8rem;
-            text-align: center;
-            width: 60px;
-        }
-        
-        .detail-header {
-            display: flex;
-            align-items: center;
-            gap: 30px;
-            margin-bottom: 30px;
-        }
-        
-        .detail-head {
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
-            border: 5px solid #ff9a00;
-            box-shadow: 0 10px 30px rgba(255, 154, 0, 0.5);
-        }
-        
-        .detail-name {
-            font-size: 2.5rem;
-            margin-bottom: 10px;
-        }
-        
-        .detail-title {
-            font-size: 1.5rem;
-            padding: 8px 20px;
-            border-radius: 25px;
-            display: inline-block;
-        }
-        
-        .detail-points {
-            font-size: 2rem;
-            color: #00ff88;
-            margin: 20px 0;
-            text-shadow: 0 0 15px rgba(0, 255, 136, 0.7);
-        }
-        
-        .detail-tiers-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 15px;
-            margin-top: 20px;
-        }
-        
-        .detail-tier-item {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 12px;
-            padding: 15px;
-            text-align: center;
-            transition: all 0.3s;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-        
-        .detail-tier-item:hover {
-            transform: translateY(-5px);
-            background: rgba(255, 255, 255, 0.2);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
-        }
-        
-        .detail-tier-value {
-            font-size: 1.8rem;
-            font-weight: bold;
-            margin-bottom: 5px;
-            padding: 10px;
-            border-radius: 8px;
-        }
-        
-        .detail-tier-kit {
-            font-size: 1rem;
-            color: rgba(255, 255, 255, 0.8);
-            margin-top: 5px;
-        }
-        
-        .empty-tier {
-            color: rgba(255, 255, 255, 0.3);
-            font-style: italic;
-        }
-        
-        /* Server info stránka */
-        .server-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(12, 36, 97, 0.98);
-            z-index: 2002;
-            display: none;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-            overflow-y: auto;
-        }
-        
-        .server-overlay.active {
-            display: flex;
-        }
-        
-        .server-card {
-            background: linear-gradient(135deg, #27ae60, #2ecc71);
-            border-radius: 20px;
-            padding: 40px;
-            max-width: 700px;
-            width: 100%;
-            border: 3px solid #f1c40f;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7);
-            position: relative;
-            color: #2c3e50;
-        }
-        
-        .server-card h1 {
-            font-size: 3rem;
-            color: #2c3e50;
-            margin-bottom: 20px;
-            text-align: center;
-            text-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
-        }
-        
-        .server-card p {
-            font-size: 1.2rem;
-            line-height: 1.6;
-            margin-bottom: 30px;
-            color: #2c3e50;
-            text-align: center;
-        }
-        
-        .owner-info {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 20px;
-            background: rgba(231, 76, 60, 0.2);
-            border-radius: 15px;
-            padding: 20px;
-            margin: 30px 0;
-            border: 2px solid #e74c3c;
-        }
-        
-        .owner-head {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            border: 3px solid #e74c3c;
-            box-shadow: 0 5px 15px rgba(231, 76, 60, 0.4);
-        }
-        
-        .owner-name {
-            font-size: 1.8rem;
-            font-weight: bold;
-            color: #c0392b;
-        }
-        
-        .server-links {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            margin-top: 30px;
-        }
-        
-        .server-link {
-            padding: 15px 30px;
-            background: rgba(52, 152, 219, 0.2);
-            border: 2px solid #3498db;
-            border-radius: 12px;
-            color: #2c3e50;
-            text-decoration: none;
-            font-weight: bold;
-            font-size: 1.1rem;
-            transition: all 0.3s;
-            text-align: center;
-            flex: 1;
-            max-width: 200px;
-        }
-        
-        .server-link:hover {
-            background: rgba(52, 152, 219, 0.4);
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-        }
-        
-        .server-link.discord {
-            background: rgba(114, 137, 218, 0.2);
-            border-color: #7289da;
-        }
-        
-        .server-link.discord:hover {
-            background: rgba(114, 137, 218, 0.4);
-        }
-        
-        /* Tlačítko Minekap Practice */
-        .server-btn {
-            position: absolute;
-            top: 30px;
-            left: 30px;
-            background: linear-gradient(45deg, #27ae60, #2ecc71);
-            border: 2px solid #f1c40f;
-            color: #2c3e50;
-            padding: 12px 25px;
-            border-radius: 50px;
-            cursor: pointer;
-            font-size: 1.1rem;
-            font-weight: bold;
-            z-index: 100;
-            transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
-        }
-        
-        .server-btn:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
-            background: linear-gradient(45deg, #2ecc71, #27ae60);
-        }
-        
-        .server-btn i {
-            font-size: 1.3rem;
-        }
-        
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 30px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            position: relative;
-        }
-        
-        /* Kontrolky v pravém horním rohu */
-        .top-controls {
-            position: absolute;
-            top: 30px;
-            right: 30px;
-            display: flex;
-            gap: 15px;
-            z-index: 100;
-        }
-        
-        .control-btn {
-            background: rgba(255, 154, 0, 0.2);
-            border: 1px solid rgba(255, 154, 0, 0.4);
-            color: #ff9a00;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            font-size: 24px;
-            transition: all 0.3s;
-        }
-        
-        .control-btn:hover {
-            background: rgba(255, 154, 0, 0.3);
-            transform: scale(1.05);
-        }
-        
-        .search-btn {
-            background: rgba(52, 152, 219, 0.2);
-            border-color: rgba(52, 152, 219, 0.4);
-            color: #3498db;
-        }
-        
-        /* Dropdown menu pro filtr */
-        .control-dropdown {
-            position: absolute;
-            top: 90px;
-            right: 30px;
-            background: rgba(0, 0, 0, 0.95);
-            border: 1px solid rgba(255, 154, 0, 0.4);
-            border-radius: 15px;
-            padding: 20px;
-            width: 350px;
-            z-index: 101;
-            display: none;
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
-        }
-        
-        .control-dropdown.active {
-            display: block;
-        }
-        
-        .dropdown-title {
-            font-size: 1.2rem;
-            margin-bottom: 15px;
-            color: #ff9a00;
-            text-align: center;
-            border-bottom: 1px solid rgba(255, 154, 0, 0.3);
-            padding-bottom: 10px;
-        }
-        
-        .filter-section {
-            margin-bottom: 20px;
-        }
-        
-        .filter-label {
-            display: block;
-            margin-bottom: 8px;
-            color: #a5b1c2;
-            font-size: 0.9rem;
-        }
-        
-        .filter-select, .search-input {
-            width: 100%;
-            padding: 10px 15px;
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 8px;
-            color: white;
-            font-size: 1rem;
-        }
-        
-        .search-input::placeholder {
-            color: rgba(255, 255, 255, 0.5);
-        }
-        
-        .filter-buttons {
-            display: flex;
-            gap: 10px;
-            margin-top: 20px;
-        }
-        
-        .filter-btn {
-            flex: 1;
-            padding: 10px;
-            background: rgba(255, 154, 0, 0.2);
-            border: 1px solid rgba(255, 154, 0, 0.4);
-            color: white;
-            border-radius: 8px;
-            cursor: pointer;
-            text-align: center;
-            transition: all 0.3s;
-        }
-        
-        .filter-btn:hover {
-            background: rgba(255, 154, 0, 0.4);
-        }
-        
-        .filter-btn.apply {
-            background: rgba(46, 204, 113, 0.2);
-            border-color: rgba(46, 204, 113, 0.4);
-        }
-        
-        .filter-btn.apply:hover {
-            background: rgba(46, 204, 113, 0.4);
-        }
-        
-        .filter-status {
-            margin-top: 15px;
-            padding: 10px;
-            background: rgba(255, 154, 0, 0.1);
-            border-radius: 8px;
-            text-align: center;
-            font-size: 0.9rem;
-            color: #ff9a00;
-            display: none;
-        }
-        
-        /* Panel s výsledky vyhledávání */
-        .search-results {
-            position: absolute;
-            top: 90px;
-            right: 100px;
-            background: rgba(0, 0, 0, 0.95);
-            border: 1px solid rgba(52, 152, 219, 0.4);
-            border-radius: 15px;
-            padding: 20px;
-            width: 500px;
-            z-index: 101;
-            display: none;
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
-        }
-        
-        .search-results.active {
-            display: block;
-        }
-        
-        .search-player-detail {
-            text-align: center;
-        }
-        
-        .search-detail-skin {
-            width: 150px;
-            height: 150px;
-            border-radius: 15px;
-            border: 5px solid #ff9a00;
-            box-shadow: 0 10px 25px rgba(255, 154, 0, 0.4);
-            margin: 0 auto 20px;
-            display: block;
-        }
-        
-        .search-detail-name {
-            font-size: 2rem;
-            margin-bottom: 5px;
-            color: white;
-        }
-        
-        .search-detail-title {
-            font-size: 1.2rem;
-            margin-bottom: 20px;
-            padding: 5px 15px;
-            border-radius: 20px;
-            display: inline-block;
-        }
-        
-        .search-detail-points {
-            font-size: 1.5rem;
-            color: #00ff88;
-            margin-bottom: 25px;
-            text-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
-        }
-        
-        .search-detail-tiers {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            justify-content: center;
-            margin-top: 20px;
-        }
-        
-        .search-detail-tier {
-            padding: 8px 15px;
-            border-radius: 8px;
-            font-weight: bold;
-            min-width: 60px;
-            text-align: center;
-        }
-        
-        .search-kit-label {
-            font-size: 0.8rem;
-            color: rgba(255, 255, 255, 0.7);
-            margin-top: 5px;
-            text-align: center;
-        }
-        
-        header {
-            text-align: center;
-            margin-bottom: 30px;
-            padding-bottom: 20px;
-            border-bottom: 2px solid rgba(255, 255, 255, 0.1);
-            padding-right: 120px;
-            padding-left: 200px;
-        }
-        
-        h1 {
-            font-size: 3rem;
-            background: linear-gradient(45deg, #ff9a00, #ff5e00);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            text-shadow: 0 5px 15px rgba(255, 94, 0, 0.3);
-            margin-bottom: 10px;
-        }
-        
-        .subtitle {
-            color: #a5b1c2;
-            font-size: 1.2rem;
-            margin-bottom: 20px;
-        }
-        
-        .table-container {
-            overflow-x: auto;
-            margin: 30px 0;
-            border-radius: 15px;
-            overflow: hidden;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            min-width: 1200px;
-        }
-        
-        thead {
-            background: linear-gradient(90deg, #1e3799, #4a69bd);
-        }
-        
-        th {
-            padding: 20px 15px;
-            text-align: center;
-            font-weight: 600;
-            font-size: 1.1rem;
-            color: white;
-            border-bottom: 3px solid #ff9a00;
-        }
-        
-        th:first-child {
-            width: 80px;
-        }
-        
-        th:nth-child(2) {
-            width: 280px;
-            text-align: left;
-        }
-        
-        tbody tr {
-            background: rgba(255, 255, 255, 0.02);
-            transition: all 0.3s;
-            cursor: pointer;
-        }
-        
-        tbody tr:nth-child(even) {
-            background: rgba(255, 255, 255, 0.05);
-        }
-        
-        tbody tr:hover {
-            background: rgba(255, 255, 255, 0.1);
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-        }
-        
-        td {
-            padding: 15px 10px;
-            text-align: center;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-        }
-        
-        .player-cell {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            text-align: left;
-        }
-        
-        .skin-img {
-            width: 50px;
-            height: 50px;
-            border-radius: 8px;
-            border: 3px solid #ff9a00;
-            box-shadow: 0 5px 15px rgba(255, 154, 0, 0.3);
-        }
-        
-        .player-info {
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
-        }
-        
-        .player-name {
-            font-weight: bold;
-            font-size: 1.2rem;
-        }
-        
-        .player-title {
-            font-size: 0.8rem;
-            padding: 3px 10px;
-            border-radius: 12px;
-            display: inline-block;
-            font-weight: bold;
-            width: fit-content;
-        }
-        
-        /* Barvy pro tituly */
-        .title-rookie { background: #95a5a6; color: #2c3e50; }
-        .title-novice { background: #2ecc71; color: white; }
-        .title-cadet { background: #3498db; color: white; }
-        .title-specialist { background: #e84393; color: white; }
-        .title-ace { background: #e74c3c; color: white; }
-        .title-master { background: #e67e22; color: white; }
-        .title-grandmaster { background: #f1c40f; color: #2c3e50; }
-        
-        .tier-cell {
-            font-weight: bold;
-            font-size: 1.1rem;
-            padding: 12px 8px;
-            border-radius: 8px;
-            min-width: 70px;
-        }
-        
-        .tier-LT5 { background: #2ecc71; color: white; }
-        .tier-HT5 { background: #27ae60; color: white; }
-        .tier-LT4 { background: #3498db; color: white; }
-        .tier-HT4 { background: #2980b9; color: white; }
-        .tier-LT3 { background: #9b59b6; color: white; }
-        .tier-HT3 { background: #8e44ad; color: white; }
-        .tier-LT2 { background: #e74c3c; color: white; }
-        .tier-HT2 { background: #c0392b; color: white; }
-        .tier-LT1 { background: #e67e22; color: white; }
-        .tier-HT1 { background: #d35400; color: white; }
-        
-        .tier-RLT5, .tier-RHT5, .tier-RLT4, .tier-RHT4,
-        .tier-RLT3, .tier-RHT3, .tier-RLT2, .tier-RHT2,
-        .tier-RLT1, .tier-RHT1 {
-            background: #95a5a6;
-            color: #2c3e50;
-        }
-        
-        .points-cell {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: #00ff88;
-            text-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
-        }
-        
-        .kit-header {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
-        
-        .info-panel {
-            background: rgba(0, 0, 0, 0.3);
-            padding: 20px;
-            border-radius: 15px;
-            margin-top: 30px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        
-        .points-system {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-            gap: 10px;
-            margin-top: 10px;
-        }
-        
-        .point-item {
-            background: rgba(255, 255, 255, 0.05);
-            padding: 8px;
-            border-radius: 5px;
-            text-align: center;
-        }
-        
-        .title-system {
-            margin-top: 20px;
-        }
-        
-        .title-item {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 8px;
-            padding: 8px;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 5px;
-        }
-        
-        .title-color {
-            width: 20px;
-            height: 20px;
-            border-radius: 4px;
-        }
-        
-        @media (max-width: 1100px) {
-            .server-btn {
-                position: relative;
-                top: 0;
-                left: 0;
-                margin-bottom: 20px;
-                display: inline-block;
-            }
-            
-            header {
-                padding-left: 30px;
-            }
-        }
-        
-        @media (max-width: 768px) {
-            .container {
-                padding: 15px;
-            }
-            
-            h1 {
-                font-size: 2rem;
-            }
-            
-            .player-cell {
-                flex-direction: column;
-                text-align: center;
-                gap: 5px;
-            }
-            
-            .top-controls {
-                top: 20px;
-                right: 20px;
-                gap: 10px;
-            }
-            
-            .control-dropdown, .search-results {
-                top: 80px;
-                right: 20px;
-                width: calc(100% - 40px);
-            }
-            
-            .search-results {
-                right: 20px;
-            }
-            
-            header {
-                padding-right: 100px;
-                padding-left: 20px;
-            }
-            
-            .detail-tiers-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            
-            .detail-header {
-                flex-direction: column;
-                text-align: center;
-                gap: 20px;
-            }
-            
-            .server-card {
-                padding: 20px;
-            }
-            
-            .server-card h1 {
-                font-size: 2rem;
-            }
-            
-            .server-links {
-                flex-direction: column;
-                align-items: center;
-            }
-            
-            .server-link {
-                max-width: 100%;
-            }
-        }
-        
-        @media (max-width: 480px) {
-            .detail-tiers-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
 </head>
 <body>
-    <!-- Tlačítko Minekap Practice -->
-    <div class="server-btn" id="serverBtn">
-        <i class="fas fa-server"></i> Minekap Practice
-    </div>
-    
-    <!-- Překryv pro detail hráče -->
-    <div class="player-overlay" id="playerOverlay">
-        <div class="player-detail-card" id="playerDetailCard">
-            <!-- Detail hráče se naplní JavaScriptem -->
-        </div>
-    </div>
-    
-    <!-- Stránka s informacemi o serveru -->
-    <div class="server-overlay" id="serverOverlay">
-        <div class="server-card">
-            <div class="close-detail" id="closeServer">
-                <i class="fas fa-times"></i>
-            </div>
-            <div class="close-text">Zavřít</div>
-            <h1>⚔️ Minekap Practice</h1>
-            <p>Minecraft server zaměřený na PVP, kde najdete různé módy jako duely, FFA, party boje a mnoho cosmetic items pro přizpůsobení vašeho hráče.</p>
-            
-            <div class="owner-info">
-                <img class="owner-head" src="https://mc-heads.net/avatar/jaknox/150.png" alt="Owner Head">
-                <div>
-                    <div class="owner-name">Owner: jaknox</div>
-                    <p>Zakladatel a hlavní admin serveru</p>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-top">
+                <div class="logo-section">
+                    <div class="server-logo">
+                        <div class="logo-emoji">🏆</div>
+                        <h1 class="logo-text">Minekap <span class="highlight">Tier List</span></h1>
+                    </div>
+                    <div class="server-owner">
+                        <span class="owner-label">Owner:</span>
+                        <span class="owner-name">jaknox</span>
+                    </div>
+                </div>
+                
+                <div class="server-info-section">
+                    <div class="server-ip-display">
+                        <i class="fas fa-server"></i>
+                        <code class="ip-address">mc.minekap.eu</code>
+                        <button class="copy-ip-btn" title="Kopírovat IP">
+                            <i class="far fa-copy"></i>
+                        </button>
+                    </div>
+                    
+                    <div class="server-links">
+                        <a href="https://dsc.gg/minekap" class="btn discord-btn" target="_blank">
+                            <i class="fab fa-discord"></i> Discord
+                        </a>
+                        <a href="https://craftlist.org/minekap#vote" class="btn vote-btn" target="_blank">
+                            <i class="fas fa-vote-yea"></i> Vote
+                        </a>
+                    </div>
                 </div>
             </div>
             
-            <div style="text-align: center; margin: 30px 0;">
-                <h3>🚀 Připoj se k nám!</h3>
-                <p>IP adresa: <strong>mc.minekap.eu</strong></p>
-            </div>
-            
-            <div class="server-links">
-                <a href="https://dsc.gg/minekap" target="_blank" class="server-link discord">
-                    <i class="fab fa-discord"></i> Discord
-                </a>
-                <a href="https://craftlist.org/minekap#vote" target="_blank" class="server-link">
-                    <i class="fas fa-vote-yea"></i> Vote
-                </a>
-            </div>
-        </div>
-    </div>
-    
-    <div class="container">
-        <!-- Kontrolky v pravém horním rohu -->
-        <div class="top-controls">
-            <div class="control-btn search-btn" id="searchBtn" title="Vyhledat hráče">
-                <i class="fas fa-search"></i>
-            </div>
-            <div class="control-btn" id="filterBtn" title="Filtrovat tierlist">
-                <i class="fas fa-bars"></i>
-            </div>
-        </div>
-        
-        <!-- Dropdown menu pro vyhledávání -->
-        <div class="search-results" id="searchResults">
-            <div class="dropdown-title">
-                <i class="fas fa-search"></i> Vyhledat hráče
-            </div>
-            
-            <div class="filter-section">
-                <input type="text" class="search-input" id="playerSearch" placeholder="Zadejte jméno hráče...">
-            </div>
-            
-            <div class="search-player-detail" id="searchPlayerDetail">
-                <div style="text-align: center; padding: 20px; color: #a5b1c2;">
-                    <i class="fas fa-search" style="font-size: 3rem; margin-bottom: 15px;"></i>
-                    <h3>Zadejte jméno hráče</h3>
-                    <p>Začněte psát jméno hráče pro zobrazení detailů.</p>
+            <!-- Info panel -->
+            <div class="info-panel">
+                <button class="info-toggle-btn" id="infoToggle">
+                    <i class="fas fa-info-circle"></i> Informace o serveru
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+                <div class="info-content" id="infoContent">
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <h3><i class="fas fa-gamepad"></i> Typy her</h3>
+                            <p>Duels • FFA • Party</p>
+                        </div>
+                        <div class="info-item">
+                            <h3><i class="fas fa-gem"></i> Cosmetics</h3>
+                            <p>Tags, Kill Sounds, Chat Colors and more</p>
+                        </div>
+                        <div class="info-item">
+                            <h3><i class="fas fa-trophy"></i> Kity</h3>
+                            <p>Sword, Axe, UHC, DiaPot, NethPot, SMP, Crystal, Mace, Spear (ranked kits)</p>
+                        </div>
+                        <div class="info-item">
+                            <h3><i class="fas fa-star"></i> Tier systém</h3>
+                            <p>LT5 až HT1 s bodovým hodnocením</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-        
-        <!-- Dropdown menu pro filtr -->
-        <div class="control-dropdown" id="filterDropdown">
-            <div class="dropdown-title">
-                <i class="fas fa-filter"></i> Filtrovat tierlist
-            </div>
-            
-            <div class="filter-section">
-                <label class="filter-label">Vyber kit:</label>
-                <select class="filter-select" id="kitSelect">
-                    <option value="">Všechny kity</option>
-                    <option value="Sword">🗡️ Sword</option>
-                    <option value="Axe">🪓 Axe</option>
-                    <option value="UHC">❤️ UHC</option>
-                    <option value="DiaPot">💎 DiaPot</option>
-                    <option value="NethPot">🔥 NethPot</option>
-                    <option value="SMP">🌍 SMP</option>
-                    <option value="Crystal">💎 Crystal</option>
-                    <option value="Mace">🔨 Mace</option>
-                    <option value="Spear">🔱 Spear</option>
-                </select>
-            </div>
-            
-            <div class="filter-section">
-                <label class="filter-label">Vyber tier:</label>
-                <select class="filter-select" id="tierSelect">
-                    <option value="">Všechny tiery</option>
-                    <option value="HT1">HT1</option>
-                    <option value="LT1">LT1</option>
-                    <option value="HT2">HT2</option>
-                    <option value="LT2">LT2</option>
-                    <option value="HT3">HT3</option>
-                    <option value="LT3">LT3</option>
-                    <option value="HT4">HT4</option>
-                    <option value="LT4">LT4</option>
-                    <option value="HT5">HT5</option>
-                    <option value="LT5">LT5</option>
-                </select>
-            </div>
-            
-            <div class="filter-buttons">
-                <div class="filter-btn" id="applyFilter">
-                    <i class="fas fa-check"></i> Použít filtr
+    </header>
+
+    <!-- Main content -->
+    <main class="main-content">
+        <div class="container">
+            <!-- Kontrolní panel -->
+            <div class="control-panel">
+                <div class="search-section">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="playerSearch" placeholder="Hledat hráče...">
+                    </div>
                 </div>
-                <div class="filter-btn apply" id="resetFilter">
-                    <i class="fas fa-undo"></i> Zrušit filtr
+                
+                <div class="filter-section">
+                    <div class="filter-group">
+                        <label for="kitFilter"><i class="fas fa-filter"></i> Filtrovat podle kitu:</label>
+                        <select id="kitFilter" class="filter-select">
+                            <option value="all">Všechny kity</option>
+                            <option value="sword">Sword</option>
+                            <option value="axe">Axe</option>
+                            <option value="uhc">UHC</option>
+                            <option value="diapot">DiaPot</option>
+                            <option value="nethpot">NethPot</option>
+                            <option value="smp">SMP</option>
+                            <option value="crystal">Crystal</option>
+                            <option value="mace">Mace</option>
+                            <option value="spear">Spear</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label for="tierFilter"><i class="fas fa-layer-group"></i> Filtrovat podle tieru:</label>
+                        <select id="tierFilter" class="filter-select">
+                            <option value="all">Všechny tiery</option>
+                            <option value="LT5">LT5</option>
+                            <option value="HT5">HT5</option>
+                            <option value="LT4">LT4</option>
+                            <option value="HT4">HT4</option>
+                            <option value="LT3">LT3</option>
+                            <option value="HT3">HT3</option>
+                            <option value="LT2">LT2</option>
+                            <option value="HT2">HT2</option>
+                            <option value="LT1">LT1</option>
+                            <option value="HT1">HT1</option>
+                            <option value="RLT3">RLT3 (Retier)</option>
+                            <option value="RHT3">RHT3 (Retier)</option>
+                            <option value="RLT2">RLT2 (Retier)</option>
+                            <option value="RHT2">RHT2 (Retier)</option>
+                            <option value="RLT1">RLT1 (Retier)</option>
+                            <option value="RHT1">RHT1 (Retier)</option>
+                        </select>
+                    </div>
+                    
+                    <button class="btn reset-filters-btn" id="resetFilters">
+                        <i class="fas fa-redo"></i> Resetovat filtry
+                    </button>
+                </div>
+                
+                <div class="stats-section">
+                    <div class="stat-box">
+                        <span class="stat-label">Počet hráčů:</span>
+                        <span class="stat-value" id="playerCount">0</span>
+                    </div>
+                    <div class="stat-box">
+                        <span class="stat-label">Nejlepší hráč:</span>
+                        <span class="stat-value" id="topPlayer">-</span>
+                    </div>
+                    <div class="stat-box">
+                        <span class="stat-label">Průměrný body:</span>
+                        <span class="stat-value" id="avgPoints">-</span>
+                    </div>
                 </div>
             </div>
-            
-            <div class="filter-status" id="filterStatus">
-                <!-- Zde se zobrazí informace o aktuálním filtru -->
+
+            <!-- Hráči tabulka -->
+            <div class="players-table-container">
+                <div class="table-header">
+                    <h2><i class="fas fa-list-ol"></i> Žebříček hráčů</h2>
+                    <div class="sort-controls">
+                        <button class="sort-btn active" data-sort="totalPoints">
+                            <i class="fas fa-sort-amount-down"></i> Podle bodů
+                        </button>
+                        <button class="sort-btn" data-sort="name">
+                            <i class="fas fa-sort-alpha-down"></i> Podle jména
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="table-responsive">
+                    <table class="players-table" id="playersTable">
+                        <thead>
+                            <tr>
+                                <th class="rank-col">#</th>
+                                <th class="player-col">Hráč</th>
+                                <th class="title-col">Title</th>
+                                <th class="points-col">Body</th>
+                                <th class="kits-header" colspan="9">Kity</th>
+                            </tr>
+                            <tr class="kits-row">
+                                <th colspan="4"></th>
+                                <th class="kit-col">Sword</th>
+                                <th class="kit-col">Axe</th>
+                                <th class="kit-col">UHC</th>
+                                <th class="kit-col">DiaPot</th>
+                                <th class="kit-col">NethPot</th>
+                                <th class="kit-col">SMP</th>
+                                <th class="kit-col">Crystal</th>
+                                <th class="kit-col">Mace</th>
+                                <th class="kit-col">Spear</th>
+                            </tr>
+                        </thead>
+                        <tbody id="playersTableBody">
+                            <!-- Data se načtou z JSONu -->
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="table-footer">
+                    <div class="legend">
+                        <div class="legend-item">
+                            <span class="legend-color retier"></span>
+                            <span class="legend-text">Retier (stejné body jako normální tier)</span>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
-        
-        <header>
-            <h1>⚔️ Minecraft PVP Tierlist</h1>
-            <div class="subtitle">Minekap PVP Tierlist</div>
-        </header>
-        
-        <div class="table-container">
-            <table id="tierlistTable">
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Hráč</th>
-                        <th><div class="kit-header">🗡️ Sword</div></th>
-                        <th><div class="kit-header">🪓 Axe</div></th>
-                        <th><div class="kit-header">❤️ UHC</div></th>
-                        <th><div class="kit-header">💎 DiaPot</div></th>
-                        <th><div class="kit-header">🔥 NethPot</div></th>
-                        <th><div class="kit-header">🌍 SMP</div></th>
-                        <th><div class="kit-header">💎 Crystal</div></th>
-                        <th><div class="kit-header">🔨 Mace</div></th>
-                        <th><div class="kit-header">🔱 Spear</div></th>
-                        <th>⭐ Body</th>
-                    </tr>
-                </thead>
-                <tbody id="tableBody"></tbody>
-            </table>
-        </div>
-        
-        <div class="info-panel">
-            <h3><i class="fas fa-star"></i> Bodový systém:</h3>
+
+            <!-- Bodový systém -->
             <div class="points-system">
-                <div class="point-item">LT5 = <span style="color: #2ecc71">1</span></div>
-                <div class="point-item">HT5 = <span style="color: #27ae60">2</span></div>
-                <div class="point-item">LT4 = <span style="color: #3498db">3</span></div>
-                <div class="point-item">HT4 = <span style="color: #2980b9">4</span></div>
-                <div class="point-item">LT3 = <span style="color: #9b59b6">10</span></div>
-                <div class="point-item">HT3 = <span style="color: #8e44ad">15</span></div>
-                <div class="point-item">LT2 = <span style="color: #e74c3c">20</span></div>
-                <div class="point-item">HT2 = <span style="color: #c0392b">30</span></div>
-                <div class="point-item">LT1 = <span style="color: #e67e22">45</span></div>
-                <div class="point-item">HT1 = <span style="color: #d35400">60</span></div>
+                <h3><i class="fas fa-calculator"></i> Bodový systém</h3>
+                <div class="points-grid">
+                    <div class="points-tier">
+                        <span class="tier-name">HT1</span>
+                        <span class="tier-points">60 bodů</span>
+                    </div>
+                    <div class="points-tier">
+                        <span class="tier-name">LT1</span>
+                        <span class="tier-points">45 bodů</span>
+                    </div>
+                    <div class="points-tier">
+                        <span class="tier-name">HT2</span>
+                        <span class="tier-points">30 bodů</span>
+                    </div>
+                    <div class="points-tier">
+                        <span class="tier-name">LT2</span>
+                        <span class="tier-points">20 bodů</span>
+                    </div>
+                    <div class="points-tier">
+                        <span class="tier-name">HT3</span>
+                        <span class="tier-points">15 bodů</span>
+                    </div>
+                    <div class="points-tier">
+                        <span class="tier-name">LT3</span>
+                        <span class="tier-points">10 bodů</span>
+                    </div>
+                    <div class="points-tier">
+                        <span class="tier-name">HT4</span>
+                        <span class="tier-points">4 body</span>
+                    </div>
+                    <div class="points-tier">
+                        <span class="tier-name">LT4</span>
+                        <span class="tier-points">3 body</span>
+                    </div>
+                    <div class="points-tier">
+                        <span class="tier-name">HT5</span>
+                        <span class="tier-points">2 body</span>
+                    </div>
+                    <div class="points-tier">
+                        <span class="tier-name">LT5</span>
+                        <span class="tier-points">1 bod</span>
+                    </div>
+                </div>
+                
+                <h3><i class="fas fa-medal"></i> Title systém</h3>
+                <div class="titles-grid">
+                    <div class="title-item" style="background-color: #95a5a6;">
+                        <span class="title-name">Rookie</span>
+                        <span class="title-range">0-10 bodů</span>
+                    </div>
+                    <div class="title-item" style="background-color: #7bed9f;">
+                        <span class="title-name">Combat Novice</span>
+                        <span class="title-range">10-15 bodů</span>
+                    </div>
+                    <div class="title-item" style="background-color: #70a1ff;">
+                        <span class="title-name">Combat Cadet</span>
+                        <span class="title-range">15-50 bodů</span>
+                    </div>
+                    <div class="title-item" style="background-color: #ff9ff3;">
+                        <span class="title-name">Combat Specialist</span>
+                        <span class="title-range">50-100 bodů</span>
+                    </div>
+                    <div class="title-item" style="background-color: #ff6b6b;">
+                        <span class="title-name">Combat Ace</span>
+                        <span class="title-range">100-250 bodů</span>
+                    </div>
+                    <div class="title-item" style="background-color: #f39c12;">
+                        <span class="title-name">Combat Master</span>
+                        <span class="title-range">250-350 bodů</span>
+                    </div>
+                    <div class="title-item" style="background-color: #f1c40f;">
+                        <span class="title-name">Combat Grandmaster</span>
+                        <span class="title-range">350+ bodů</span>
+                    </div>
+                </div>
             </div>
-            
-            <div class="title-system">
-                <h3><i class="fas fa-crown"></i> Title systém:</h3>
-                <div class="title-item">
-                    <div class="title-color" style="background: #95a5a6"></div>
-                    <span>0-10 bodů: <strong>Rookie</strong></span>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-info">
+                    <p><i class="fas fa-code"></i> Vytvořeno pro <strong>Minekap.eu</strong></p>
+                    <p><i class="far fa-copyright"></i> 2024 Tier List System</p>
                 </div>
-                <div class="title-item">
-                    <div class="title-color" style="background: #2ecc71"></div>
-                    <span>10-15 bodů: <strong>Combat Novice</strong></span>
-                </div>
-                <div class="title-item">
-                    <div class="title-color" style="background: #3498db"></div>
-                    <span>15-50 bodů: <strong>Combat Cadet</strong></span>
-                </div>
-                <div class="title-item">
-                    <div class="title-color" style="background: #e84393"></div>
-                    <span>50-100 bodů: <strong>Combat Specialist</strong></span>
-                </div>
-                <div class="title-item">
-                    <div class="title-color" style="background: #e74c3c"></div>
-                    <span>100-250 bodů: <strong>Combat Ace</strong></span>
-                </div>
-                <div class="title-item">
-                    <div class="title-color" style="background: #e67e22"></div>
-                    <span>250-350 bodů: <strong>Combat Master</strong></span>
-                </div>
-                <div class="title-item">
-                    <div class="title-color" style="background: #f1c40f"></div>
-                    <span>350+ bodů: <strong>Combat Grandmaster</strong></span>
+                <div class="footer-links">
+                    <a href="https://mc.minekap.eu" target="_blank">mc.minekap.eu</a>
+                    <a href="https://dsc.gg/minekap" target="_blank">Discord</a>
+                    <a href="https://craftlist.org/minekap#vote" target="_blank">Vote</a>
                 </div>
             </div>
+        </div>
+    </footer>
+
+    <!-- Modal pro profil hráče -->
+    <div class="modal-overlay" id="playerModalOverlay">
+        <div class="player-modal" id="playerModal">
+            <button class="modal-close-btn" id="modalCloseBtn">
+                <i class="fas fa-times"></i>
+            </button>
             
-            <p style="margin-top: 15px; color: #a5b1c2; font-size: 0.9rem;">
-                <i class="fas fa-info-circle"></i> Klikněte na hráče v tabulce pro zobrazení detailního profilu
-            </p>
+            <div class="player-modal-content" id="playerModalContent">
+                <!-- Obsah se naplní dynamicky -->
+            </div>
         </div>
     </div>
 
-    <script>
-        // ============================================
-        // ZDE UPRAVA HRÁČE A TIERY
-        // ============================================
-        
-        const players = [
-            {
-                name: "jaknox",
-                skin: "",
-                kits: {
-                    Sword: "LT3",
-                    Axe: "LT3",
-                    UHC: "HT4",
-                    DiaPot: "HT4",
-                    NethPot: "HT4",
-                    SMP: "HT4",
-                    Crystal: "HT4",
-                    Mace: "LT4",
-                    Spear: "LT3"
-                }
-            },
-            {
-                name: "YT_lacjim168",
-                skin: "",
-                kits: {
-                    Sword: "LT3",
-                    Axe: "LT4",
-                    UHC: "",
-                    DiaPot: "LT5",
-                    NethPot: "LT5",
-                    SMP: "",
-                    Crystal: "",
-                    Mace: "HT5",
-                    Spear: "HT5"
-                }
-            },
-            {
-                name: "citronyx1",
-                skin: "",
-                kits: {
-                    Sword: "HT5",
-                    Axe: "LT5",
-                    UHC: "",
-                    DiaPot: "",
-                    NethPot: "",
-                    SMP: "",
-                    Crystal: "LT5",
-                    Mace: "HT5",
-                    Spear: ""
-                }
-            },
-            {
-                name: "Jirkafogus",
-                skin: "",
-                kits: {
-                    Sword: "HT4",
-                    Axe: "HT4",
-                    UHC: "LT3",
-                    DiaPot: "HT4",
-                    NethPot: "",
-                    SMP: "LT3",
-                    Crystal: "HT5",
-                    Mace: "",
-                    Spear: "LT3"
-                }
-            },
-            {
-                name: "SetProfile",
-                skin: "",
-                kits: {
-                    Sword: "LT3",
-                    Axe: "",
-                    UHC: "",
-                    DiaPot: "",
-                    NethPot: "LT4",
-                    SMP: "",
-                    Crystal: "LT5",
-                    Mace: "HT5",
-                    Spear: "LT5"
-                }
-            },
-            {
-                name: "FaZeTraRanTula",
-                skin: "",
-                kits: {
-                    Sword: "HT3",
-                    Axe: "",
-                    UHC: "",
-                    DiaPot: "",
-                    NethPot: "",
-                    SMP: "",
-                    Crystal: "",
-                    Mace: "HT5",
-                    Spear: ""
-                }
-            },
-            {
-                name: "ITzLunas",
-                skin: "",
-                kits: {
-                    Sword: "LT4",
-                    Axe: "",
-                    UHC: "",
-                    DiaPot: "",
-                    NethPot: "",
-                    SMP: "",
-                    Crystal: "LT4",
-                    Mace: "",
-                    Spear: ""
-                }
-            },
-            {
-                name: "Vojtas_",
-                skin: "",
-                kits: {
-                    Sword: "HT4",
-                    Axe: "",
-                    UHC: "HT5",
-                    DiaPot: "",
-                    NethPot: "",
-                    SMP: "HT5",
-                    Crystal: "",
-                    Mace: "HT5",
-                    Spear: ""
-                }
-            },
-            {
-                name: "vlk_1",
-                skin: "",
-                kits: {
-                    Sword: "LT5",
-                    Axe: "",
-                    UHC: "",
-                    DiaPot: "",
-                    NethPot: "",
-                    SMP: "",
-                    Crystal: "",
-                    Mace: "",
-                    Spear: ""
-                }
-            },
-            {
-                name: "doge_cg",
-                skin: "",
-                kits: {
-                    Sword: "",
-                    Axe: "LT4",
-                    UHC: "",
-                    DiaPot: "",
-                    NethPot: "",
-                    SMP: "",
-                    Crystal: "",
-                    Mace: "",
-                    Spear: ""
-                }
-            },
-            {
-                name: "Terry885522",
-                skin: "",
-                kits: {
-                    Sword: "LT5",
-                    Axe: "",
-                    UHC: "",
-                    DiaPot: "",
-                    NethPot: "",
-                    SMP: "",
-                    Crystal: "",
-                    Mace: "",
-                    Spear: "LT5"
-                }
-            }
-        ];
-        
-        // ============================================
-        // BODOVÝ SYSTÉM
-        // ============================================
-        
-        const tierPoints = {
-            '': 0,
-            'LT5': 1, 'HT5': 2, 'LT4': 3, 'HT4': 4,
-            'LT3': 10, 'HT3': 15, 'LT2': 20, 'HT2': 30,
-            'LT1': 45, 'HT1': 60,
-            'RLT5': 1, 'RHT5': 2, 'RLT4': 3, 'RHT4': 4,
-            'RLT3': 10, 'RHT3': 15, 'RLT2': 20, 'RHT2': 30,
-            'RLT1': 45, 'RHT1': 60
-        };
-        
-        const kitsOrder = ['Sword', 'Axe', 'UHC', 'DiaPot', 'NethPot', 'SMP', 'Crystal', 'Mace', 'Spear'];
-        const kitLabels = {
-            'Sword': '🗡️ Sword',
-            'Axe': '🪓 Axe', 
-            'UHC': '❤️ UHC',
-            'DiaPot': '💎 DiaPot',
-            'NethPot': '🔥 NethPot',
-            'SMP': '🌍 SMP',
-            'Crystal': '💎 Crystal',
-            'Mace': '🔨 Mace',
-            'Spear': '🔱 Spear'
-        };
-        
-        // ============================================
-        // TITLE SYSTÉM
-        // ============================================
-        
-        function getTitle(points) {
-            if (points >= 350) {
-                return { name: "Combat Grandmaster", class: "title-grandmaster" };
-            } else if (points >= 250) {
-                return { name: "Combat Master", class: "title-master" };
-            } else if (points >= 100) {
-                return { name: "Combat Ace", class: "title-ace" };
-            } else if (points >= 50) {
-                return { name: "Combat Specialist", class: "title-specialist" };
-            } else if (points >= 15) {
-                return { name: "Combat Cadet", class: "title-cadet" };
-            } else if (points >= 10) {
-                return { name: "Combat Novice", class: "title-novice" };
-            } else {
-                return { name: "Rookie", class: "title-rookie" };
-            }
-        }
-        
-        // ============================================
-        // PROMĚNNÉ PRO FILTR A VYHLEDÁVÁNÍ
-        // ============================================
-        
-        let currentFilter = {
-            kit: '',
-            tier: ''
-        };
-        
-        // ============================================
-        // FUNKCE PRO DETAIL HRÁČE
-        // ============================================
-        
-        function calculatePoints(player) {
-            let total = 0;
-            kitsOrder.forEach(kit => {
-                const tier = player.kits[kit] || '';
-                total += tierPoints[tier] || 0;
-            });
-            return total;
-        }
-        
-        function filterPlayers() {
-            const kit = currentFilter.kit;
-            const tier = currentFilter.tier;
-            
-            if (!kit && !tier) {
-                return players;
-            }
-            
-            return players.filter(player => {
-                if (kit && tier) {
-                    return player.kits[kit] === tier;
-                } else if (kit) {
-                    return player.kits[kit] !== '';
-                } else if (tier) {
-                    return Object.values(player.kits).includes(tier);
-                }
-                return true;
-            });
-        }
-        
-        function showPlayerDetail(player) {
-            const playerOverlay = document.getElementById('playerOverlay');
-            const playerDetailCard = document.getElementById('playerDetailCard');
-            
-            const points = calculatePoints(player);
-            const title = getTitle(points);
-            const headUrl = `https://mc-heads.net/avatar/${player.name}/300.png`;
-            
-            let tiersHTML = '';
-            let hasTiers = false;
-            kitsOrder.forEach(kit => {
-                const tier = player.kits[kit] || '';
-                const tierClass = tier ? `tier-${tier}` : '';
-                const tierDisplay = tier || '-';
-                
-                if (tier) {
-                    hasTiers = true;
-                    tiersHTML += `
-                        <div class="detail-tier-item">
-                            <div class="detail-tier-value ${tierClass}">${tier}</div>
-                            <div class="detail-tier-kit">${kitLabels[kit]}</div>
-                        </div>
-                    `;
-                } else {
-                    tiersHTML += `
-                        <div class="detail-tier-item">
-                            <div class="detail-tier-value empty-tier">-</div>
-                            <div class="detail-tier-kit">${kitLabels[kit]}</div>
-                        </div>
-                    `;
-                }
-            });
-            
-            playerDetailCard.innerHTML = `
-                <div class="close-detail" id="closeDetailBtn" title="Zavřít profil">
-                    <i class="fas fa-times"></i>
-                </div>
-                <div class="close-text">Zavřít</div>
-                
-                <div class="detail-header">
-                    <img class="detail-head" src="${headUrl}" alt="${player.name}" 
-                         onerror="this.src='https://mc-heads.net/avatar/Steve/300.png'">
-                    <div>
-                        <h2 class="detail-name">${player.name}</h2>
-                        <div class="detail-title ${title.class}">${title.name}</div>
-                        <div class="detail-points">${points} bodů</div>
-                    </div>
-                </div>
-                
-                <h3 style="margin-bottom: 15px; color: #ff9a00;">
-                    <i class="fas fa-layer-group"></i> Tiery v kitem:
-                </h3>
-                <div class="detail-tiers-grid">
-                    ${tiersHTML}
-                </div>
-            `;
-            
-            playerOverlay.classList.add('active');
-            document.body.style.overflow = 'hidden';
-            
-            // Přidat event listener pro křížek
-            const closeDetailBtn = document.getElementById('closeDetailBtn');
-            if (closeDetailBtn) {
-                closeDetailBtn.addEventListener('click', function() {
-                    playerOverlay.classList.remove('active');
-                    document.body.style.overflow = 'auto';
-                });
-            }
-        }
-        
-        function renderTable() {
-            const tableBody = document.getElementById('tableBody');
-            tableBody.innerHTML = '';
-            
-            const filteredPlayers = filterPlayers();
-            const sortedPlayers = [...filteredPlayers].sort((a, b) => calculatePoints(b) - calculatePoints(a));
-            
-            if (sortedPlayers.length === 0) {
-                tableBody.innerHTML = `
-                    <tr>
-                        <td colspan="12" style="text-align: center; padding: 40px; color: #aaa;">
-                            <i class="fas fa-users" style="font-size: 3rem; margin-bottom: 15px; display: block;"></i>
-                            Žádní hráči neodpovídají filtru.
-                        </td>
-                    </tr>
-                `;
-                return;
-            }
-            
-            sortedPlayers.forEach((player, index) => {
-                const row = document.createElement('tr');
-                const points = calculatePoints(player);
-                const title = getTitle(points);
-                
-                row.addEventListener('click', () => {
-                    showPlayerDetail(player);
-                });
-                
-                row.innerHTML += `<td style="font-weight: bold; color: #ff9a00;">#${index + 1}</td>`;
-                
-                const skinUrl = player.skin || `https://mc-heads.net/avatar/${player.name}/100.png`;
-                row.innerHTML += `
-                    <td>
-                        <div class="player-cell">
-                            <img class="skin-img" src="${skinUrl}" alt="${player.name}" 
-                                 onerror="this.src='https://mc-heads.net/avatar/Steve/100.png'">
-                            <div class="player-info">
-                                <div class="player-name">${player.name}</div>
-                                <div class="player-title ${title.class}">${title.name}</div>
-                            </div>
-                        </div>
-                    </td>
-                `;
-                
-                kitsOrder.forEach(kit => {
-                    const tier = player.kits[kit] || '';
-                    const tierClass = tier ? `tier-${tier}` : '';
-                    const displayTier = tier || '-';
-                    
-                    let highlightClass = '';
-                    if (currentFilter.kit === kit && currentFilter.tier === tier) {
-                        highlightClass = 'filter-highlight';
-                    }
-                    
-                    row.innerHTML += `<td><div class="tier-cell ${tierClass} ${highlightClass}">${displayTier}</div></td>`;
-                });
-                
-                row.innerHTML += `<td class="points-cell">${points}</td>`;
-                
-                tableBody.appendChild(row);
-            });
-            
-            updateFilterStatus();
-        }
-        
-        function showSearchPlayerDetail(playerName) {
-            const searchPlayerDetail = document.getElementById('searchPlayerDetail');
-            const searchResults = document.getElementById('searchResults');
-            const player = players.find(p => p.name.toLowerCase() === playerName.toLowerCase());
-            
-            if (!player) {
-                searchPlayerDetail.innerHTML = `
-                    <div style="text-align: center; padding: 20px; color: #e74c3c;">
-                        <i class="fas fa-user-times" style="font-size: 3rem; margin-bottom: 15px;"></i>
-                        <h3>Hráč nenalezen</h3>
-                        <p>Hráč "${playerName}" nebyl nalezen v databázi.</p>
-                    </div>
-                `;
-                searchResults.classList.add('active');
-                return;
-            }
-            
-            const points = calculatePoints(player);
-            const title = getTitle(points);
-            const skinUrl = player.skin || `https://mc-heads.net/avatar/${player.name}/300.png`;
-            
-            let tiersHTML = '';
-            kitsOrder.forEach(kit => {
-                const tier = player.kits[kit] || '';
-                if (tier) {
-                    const tierClass = tier ? `tier-${tier}` : '';
-                    tiersHTML += `
-                        <div>
-                            <div class="search-detail-tier ${tierClass}">${tier}</div>
-                            <div class="search-kit-label">${kitLabels[kit]}</div>
-                        </div>
-                    `;
-                }
-            });
-            
-            searchPlayerDetail.innerHTML = `
-                <img class="search-detail-skin" src="${skinUrl}" alt="${player.name}" 
-                     onerror="this.src='https://mc-heads.net/avatar/Steve/300.png'">
-                <h2 class="search-detail-name">${player.name}</h2>
-                <div class="search-detail-title ${title.class}">${title.name}</div>
-                <div class="search-detail-points">${points} bodů</div>
-                <div class="search-detail-tiers">
-                    ${tiersHTML}
-                </div>
-            `;
-            
-            searchResults.classList.add('active');
-        }
-        
-        function updateFilterStatus() {
-            const filterStatus = document.getElementById('filterStatus');
-            const filteredPlayers = filterPlayers();
-            
-            if (currentFilter.kit || currentFilter.tier) {
-                const kitName = document.querySelector(`#kitSelect option[value="${currentFilter.kit}"]`)?.textContent || 'Všechny kity';
-                const tierName = currentFilter.tier || 'Všechny tiery';
-                
-                filterStatus.innerHTML = `
-                    <i class="fas fa-filter"></i> 
-                    Filtrováno: ${kitName} - ${tierName} 
-                    <br>Nalezeno hráčů: <strong>${filteredPlayers.length}</strong>
-                `;
-                filterStatus.style.display = 'block';
-            } else {
-                filterStatus.style.display = 'none';
-            }
-        }
-        
-        // ============================================
-        // OVLÁDÁNÍ DROPDOWN MENU A VYHLEDÁVÁNÍ
-        // ============================================
-        
-        document.addEventListener('DOMContentLoaded', function() {
-            renderTable();
-            
-            const filterBtn = document.getElementById('filterBtn');
-            const searchBtn = document.getElementById('searchBtn');
-            const filterDropdown = document.getElementById('filterDropdown');
-            const searchResults = document.getElementById('searchResults');
-            const applyFilterBtn = document.getElementById('applyFilter');
-            const resetFilterBtn = document.getElementById('resetFilter');
-            const kitSelect = document.getElementById('kitSelect');
-            const tierSelect = document.getElementById('tierSelect');
-            const playerSearch = document.getElementById('playerSearch');
-            const playerOverlay = document.getElementById('playerOverlay');
-            const serverBtn = document.getElementById('serverBtn');
-            const serverOverlay = document.getElementById('serverOverlay');
-            const closeServer = document.getElementById('closeServer');
-            
-            filterBtn.addEventListener('click', function(e) {
-                e.stopPropagation();
-                filterDropdown.classList.toggle('active');
-                searchResults.classList.remove('active');
-            });
-            
-            searchBtn.addEventListener('click', function(e) {
-                e.stopPropagation();
-                searchResults.classList.toggle('active');
-                filterDropdown.classList.remove('active');
-                playerSearch.focus();
-            });
-            
-            closeServer.addEventListener('click', function() {
-                serverOverlay.classList.remove('active');
-                document.body.style.overflow = 'auto';
-            });
-            
-            serverBtn.addEventListener('click', function() {
-                serverOverlay.classList.add('active');
-                document.body.style.overflow = 'hidden';
-            });
-            
-            document.addEventListener('click', function(e) {
-                if (!filterDropdown.contains(e.target) && !filterBtn.contains(e.target)) {
-                    filterDropdown.classList.remove('active');
-                }
-                if (!searchResults.contains(e.target) && !searchBtn.contains(e.target)) {
-                    searchResults.classList.remove('active');
-                }
-                if (playerOverlay.classList.contains('active') && e.target === playerOverlay) {
-                    playerOverlay.classList.remove('active');
-                    document.body.style.overflow = 'auto';
-                }
-            });
-            
-            playerSearch.addEventListener('input', function() {
-                const searchTerm = this.value.trim();
-                if (searchTerm.length >= 2) {
-                    showSearchPlayerDetail(searchTerm);
-                } else if (searchTerm.length === 0) {
-                    document.getElementById('searchPlayerDetail').innerHTML = `
-                        <div style="text-align: center; padding: 20px; color: #a5b1c2;">
-                            <i class="fas fa-search" style="font-size: 3rem; margin-bottom: 15px;"></i>
-                            <h3>Zadejte jméno hráče</h3>
-                            <p>Začněte psát jméno hráče pro zobrazení detailů.</p>
-                        </div>
-                    `;
-                }
-            });
-            
-            applyFilterBtn.addEventListener('click', function() {
-                currentFilter.kit = kitSelect.value;
-                currentFilter.tier = tierSelect.value;
-                renderTable();
-                filterDropdown.classList.remove('active');
-            });
-            
-            resetFilterBtn.addEventListener('click', function() {
-                currentFilter.kit = '';
-                currentFilter.tier = '';
-                kitSelect.value = '';
-                tierSelect.value = '';
-                renderTable();
-                filterDropdown.classList.remove('active');
-            });
-        });
-    </script>
+    <script src="js/app.js"></script>
 </body>
 </html>

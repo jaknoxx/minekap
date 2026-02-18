@@ -25,13 +25,13 @@
   },
   {
     "name": "citronyx1",
-    "sword": "HT5",
-    "axe": "LT5",
+    "sword": "LT4",
+    "axe": "HT5",
     "uhc": "",
     "diapot": "",
-    "nethpot": "",
-    "smp": "",
-    "crystal": "LT5",
+    "nethpot": "LT5",
+    "smp": "HT5",
+    "crystal": "HT5",
     "mace": "HT5",
     "spear": ""
   },
